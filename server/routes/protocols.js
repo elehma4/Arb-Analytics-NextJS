@@ -15,9 +15,22 @@ router.get('/protocols', async (req, res) => {
 
         const arbProtocols = protocols.filter(protocol => protocol.chains.includes("Arbitrum") && protocol.symbol !== "-"); 
 
+        // ENTERS PROTOCOLS INTO DATABASE:
+        // for (const protocol of arbProtocols){
+        //     await db.protocols.create({
+        //         name: protocol.name,
+        //         llamaID: parseInt(protocol.id),
+        //         description: protocol.description,
+        //         symbol: protocol.symbol,
+        //         url: protocol.url,
+        //         logo: protocol.logo
+        //     });
+        // }
+
         res.json(arbProtocols);
-        
-    } catch (error) {
+
+    } 
+    catch (error) {
         console.log(error);
         res.status(500).json({error: 'Error in fetching data'});
     }
@@ -26,19 +39,22 @@ router.get('/protocols', async (req, res) => {
 
 module.exports = router;
 
-    // res.json(protocols);
 
-    // const protocolsArr = protocols.protocols
 
-    // protocolsArr.map(protocol => {
-    //     if(protocol.chains.includes("Arbitrum") && protocol.symbol !== "-"){
-    //         console.log(`id: ${protocol.id}`);
-    //         console.log(`name: ${protocol.name}`);
-    //         console.log(`symbol: ${protocol.symbol}`);
-    //         console.log(`url: ${protocol.url}`);
-    //         console.log(`description: ${protocol.description}`);
-    //         console.log(`logo: ${protocol.logo}`);
-    //         // console.log(protocol.tvl);
-    //         console.log('--------------------------');
-    //     }
-    // })
+
+// res.json(protocols);
+
+// const protocolsArr = protocols.protocols
+
+// protocolsArr.map(protocol => {
+//     if(protocol.chains.includes("Arbitrum") && protocol.symbol !== "-"){
+//         console.log(`name: ${protocol.name}`);
+//         console.log(`id: ${protocol.id}`);
+//         console.log(`description: ${protocol.description}`);
+//         console.log(`symbol: ${protocol.symbol}`);
+//         console.log(`url: ${protocol.url}`);
+//         console.log(`logo: ${protocol.logo}`);
+//         // console.log(protocol.tvl);
+//         console.log('--------------------------');
+//     }
+// })

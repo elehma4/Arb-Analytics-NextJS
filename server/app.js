@@ -4,7 +4,9 @@ const app = express()
 const port = 3001;
 
 app.use(require('./routes/authentication'))
-app.use(require('./routes/protocols'))
+
+// ENTERS PROTOCOLS INTO DB:
+// app.use(require('./routes/protocols'))
 
 app.listen(port, () => {
     console.log(`listening on port ${port}`);
