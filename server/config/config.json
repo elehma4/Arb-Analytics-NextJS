@@ -1,0 +1,28 @@
+{
+  "development": {
+    "username": "pcwfmsmt",
+    "password": "ClU6JYJXKciToNtWHPqt1HW0cQ976d-k",
+    "database": "pcwfmsmt",
+    "host": "stampy.db.elephantsql.com",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
+  },
+  "production": {
+    "username": "pcwfmsmt",
+    "password": "ClU6JYJXKciToNtWHPqt1HW0cQ976d-k",
+    "database": "pcwfmsmt",
+    "host": "stampy.db.elephantsql.com",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
+  }
+}
