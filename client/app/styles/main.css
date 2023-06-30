@@ -1,0 +1,8 @@
+.mainBig{
+    width: calc(100% - 224px);
+    margin: 0px;
+}
+.mainSmall{
+    height: calc(100% - 56px);
+    margin: 0px;
+}

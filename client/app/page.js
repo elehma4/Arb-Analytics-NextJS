@@ -20,7 +20,7 @@ export default function Home() {
   const handleSmallScreenChange = (value) => {
     setIsSmallScreen(value);
   };  return (
-    <div>
+    <div className="h-full">
       <Navbar onSmallScreenChange={handleSmallScreenChange}/>
       <Main isSmallScreen={isSmallScreen}/>
     </div>
