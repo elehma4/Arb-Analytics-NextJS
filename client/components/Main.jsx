@@ -1,5 +1,5 @@
 import React from 'react'
-import './main.css'
+import '../app/styles/main.css'
 
 const Main = ( {isSmallScreen} ) => {
 
