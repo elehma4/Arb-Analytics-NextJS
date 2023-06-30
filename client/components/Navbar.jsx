@@ -7,9 +7,6 @@ import {RxHamburgerMenu} from 'react-icons/rx'
 import {BsSearch} from 'react-icons/bs'
 import {FiSettings} from 'react-icons/fi'
 import {MdOutlineClose} from 'react-icons/md'
-import '../app/css/navbar.css'
-
-
 
 const Navbar = ({ onSmallScreenChange }) => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
