@@ -1,22 +1,31 @@
-import React from 'react'
+// import React, {useState, useEffect} from 'react'
+// import {useDispatch, useSelector} from 'react-redux'
+// import {getProtocols} from '../slices/mainSlice'
 
-const Search = () => {
-  return (
-   <>
+// const Search = () => {
 
-    <div>
+//     const dispatch = useDispatch()
 
-        <form>
-
-        </form>
+//     const protocols = useSelector(state=>state.main.protocols)
 
 
-    </div>
-   
+//     useEffect(() => {
+      
+//         dispatch(getProtocols())
+      
+//     }, [])
+
     
-   
-   </>
-  )
-}
+    
+//   return (
+//    <>
+//     <ul>
+//         {protocols.map(protocol=>{
+//            return <li className="bg-gray-900 text-white">{protocol.name}</li>
+//         })}
+//     </ul>
+//    </>
+//   )
+// }
 
-export default Search
+// export default Search
