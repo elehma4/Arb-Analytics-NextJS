@@ -1,3 +1,4 @@
+
 import React from 'react'
 import '../app/styles/main.css'
 import {BsSearch} from 'react-icons/bs'
@@ -55,6 +56,7 @@ const Main = ( {isSmallScreen} ) => {
               
 
           </div>            
+
 
         </div>
 
