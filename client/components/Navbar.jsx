@@ -52,12 +52,12 @@ const Navbar = ({ onSmallScreenChange }) => {
   return (
     <>
     <div className={`fixed ${isSmallScreen ? 'top-0 w-full h-14 bg-gradient-to-r from-blue-900 to-blue-700' : 'left-0 h-screen w-56 flex flex-col justify-start'} bg-gray-800 z-10 text-white`}>
-      <div className={`${isSmallScreen ? 'flex justify-between' : ''} items-center w-full h-full px-2 2xl:px-16 `}>
+      <div className={`${isSmallScreen ? 'flex justify-between' : ''} items-center w-full h-full px-2`}>
         <Link className={`flex ${isSmallScreen ? '' : 'mt-2'} items-center`} href='/'>
           <Image src="/assets/arbitrum-logo.png" alt="Arbitrum logo"
           width={isSmallScreen ? 40 : 61} height={isSmallScreen ? 30 : 29}
           className={` ${isSmallScreen}`}/>
-          <div className='ml-2 '>Arbitrum Analytics</div>
+          <div className='ml-2 font-bold text-[15px]'>Arbitrum Analytics</div>
         </Link>
         {isSmallScreen && (
           <div className='flex'>
