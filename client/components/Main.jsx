@@ -28,7 +28,7 @@ const Main = ( {isSmallScreen} ) => {
           </form>
 
 
-          <div className='w-full h-1/2 lg:h-3/5 bg-gray-900 rounded-3xl mt-6 p-6 text-gray-400 sm:grid grid-cols-4 grid-rows-4 grid-flow-col gap-2'>
+          <div className='w-full h-4/5 sm:h-1/2 lg:h-3/5 bg-gray-900 rounded-3xl mt-6 p-6 text-gray-400 sm:grid grid-cols-4 grid-rows-4 grid-flow-col gap-2'>
               <div className='font-bold flex sm:flex-col row-span-4'>
                 <div className='m-2'>
                 <p className='md:text-xl m-1'>Total Value Locked </p>
@@ -50,7 +50,7 @@ const Main = ( {isSmallScreen} ) => {
                 <button className='bg-[#3267D6] lg:text-lg hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200'>Fees</button>
                 <button className='bg-[#3267D6] lg:text-lg hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200'>$ARB Price</button>
               </div>
-              <div className='border-2 w-full row-span-3 col-span-3'>
+              <div className='border-2 w-full h-3/5 sm:h-auto row-span-3 col-span-3'>
                   Chart goes here
               </div>
               
