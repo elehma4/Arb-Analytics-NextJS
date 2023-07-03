@@ -15,10 +15,10 @@ const Navbar = ({ onSmallScreenChange }) => {
   useEffect(() => {
 
     // Initial check for screen size
-    setIsSmallScreen(window.innerWidth < 640); // Adjust the breakpoint as needed
+    setIsSmallScreen(window.innerWidth < 768); // Adjust the breakpoint as needed
 
     const handleResize = () => {
-      const isSmall = window.innerWidth < 640
+      const isSmall = window.innerWidth < 768
       setIsSmallScreen(isSmall); // Adjust the breakpoint as needed
       onSmallScreenChange(isSmall)
     };
