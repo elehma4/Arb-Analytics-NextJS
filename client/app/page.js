@@ -12,7 +12,7 @@ export default function Home() {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   useEffect(() => {
-    setIsSmallScreen(window.innerWidth < 640);
+    setIsSmallScreen(window.innerWidth < 768);
   }, []);
 
   const handleSmallScreenChange = (value) => {
