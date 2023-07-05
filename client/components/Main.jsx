@@ -1,13 +1,23 @@
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../app/styles/main.css'
 import {BsSearch} from 'react-icons/bs'
+import { getProtocols } from '../slices/mainSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Main = ( {isSmallScreen} ) => {
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getProtocols())
+  }, [dispatch]);
+
+  const protocols = useSelector((state) => state.main.protocols);
+
+  console.log(protocols)
 
   return (
-
     <div id='home' className='h-screen'>
 
         <div className={` relative ${isSmallScreen ? 'top-14 mainSmall' : 'left-56 mainBig'} bg-gray-800 h-full mx-auto p-2 sm:p-4 flex flex-col justify-start items-center`}>
@@ -62,19 +72,37 @@ const Main = ( {isSmallScreen} ) => {
 
           <div className='w-full text-white grid grid-cols-4'>
             <div className='p-2 font-semibold px-4 flex justify-center items-center border border-gray-400'>
-              <a href='https://arbitrum.foundation/' className='px-2 max-sm:text-sm'>Name</a>
+              <p className='px-2 max-sm:text-sm'>Name</p>
             </div> 
             <p className='flex items-center justify-center border border-gray-400 p-2 font-semibold max-sm:text-sm text-center'>TVL</p> 
             <p className='flex items-center justify-center border border-gray-400 p-2 font-semibold max-sm:text-sm text-center'>MCAP</p>
             <p className='flex items-center justify-center border border-gray-400 p-2 font-semibold max-sm:text-sm text-center'>TVL/MCAP</p>
 
             {/* BEGIN PROTOCOLS */}
-            <div className='p-2 px-4 flex justify-center items-center border border-gray-400'>
-              <a href='' className='px-2 max-sm:text-sm text-center'>Curve Finance</a>
-            </div> 
-            <p className='flex items-center justify-center border border-gray-400 p-2 max-sm:text-sm text-center'>$100,000,000</p> 
-            <p className='flex items-center justify-center border border-gray-400 p-2 max-sm:text-sm text-center'>$100,000,000</p>
-            <p className='flex items-center justify-center border border-gray-400 p-2 max-sm:text-sm text-center'>1</p>
+            { 
+              protocols.map((protocol, index) => (
+                  <React.Fragment key={index}>
+                  <div className='p-2 px-4 flex justify-center items-center border border-gray-400'>
+                    <a 
+                    href={protocol.url} 
+                    className='px-2 max-sm:text-sm text-center hover:text-blue-600 hover:font-bold flex justify-center items-center'
+                    >
+                      {
+                        window.innerWidth > 768 ?  <img className='w-7 mx-2 rounded-full' src={protocol.logo} alt="protocol" />
+                        : <div/>
+                      }
+                      {protocol.name}
+                    </a>
+                  </div> 
+                  <p className='flex items-center justify-center border border-gray-400 p-2 max-sm:text-sm text-center'>{protocol.TVL ? `$${Math.round(protocol.TVL)}` : '-'}
+                  </p> 
+                  <p className='flex items-center justify-center border border-gray-400 p-2 max-sm:text-sm text-center'>{protocol.MCAP ? `$${Math.round(protocol.MCAP)}` : '-'}
+                  </p>
+                  <p className='flex items-center justify-center border border-gray-400 p-2 max-sm:text-sm text-center'>{protocol.TVL && protocol.MCAP ? `${(protocol.TVL / protocol.MCAP).toFixed(2)}` : '-'}
+                  </p>
+                </React.Fragment>
+              ))
+            }
             {/* END PROTOCOLS */}
 
           </div>
