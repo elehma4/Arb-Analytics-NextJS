@@ -1,10 +1,13 @@
 const express = require('express');
 const axios = require('axios');
-const db = require('./models')
+const db = require('./models');
+const cors = require('cors');
 
 const app = express();
 
 const port = 3001;
+
+app.use(cors());
 
 app.use(require('./routes/authentication'))
 
