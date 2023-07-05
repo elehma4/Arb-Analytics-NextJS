@@ -10,7 +10,7 @@ const Main = ( {isSmallScreen} ) => {
 
     <div id='home' className='h-screen'>
 
-        <div className={` relative ${isSmallScreen ? 'top-14 mainSmall' : 'left-56 mainBig'} bg-gray-800 h-full mx-auto p-4 flex flex-col justify-start items-center`}>
+        <div className={` relative ${isSmallScreen ? 'top-14 mainSmall' : 'left-56 mainBig'} bg-gray-800 h-full mx-auto p-2 sm:p-4 flex flex-col justify-start items-center`}>
           
           <form className='bg-gray-900 relative rounded-3xl w-full h-24 flex items-start justify-center mx-2 flex-col'>
             <div className='w-full h-1/2 rounded-t-3xl outline-none bg-black text-white p-2 px-4 flex items-center'>
@@ -62,18 +62,20 @@ const Main = ( {isSmallScreen} ) => {
 
           <div className='w-full text-white grid grid-cols-4'>
             <div className='p-2 font-semibold px-4 flex justify-center items-center border border-gray-400'>
-              <a href='https://arbitrum.foundation/' className='px-2 hover:'>Protocol Name</a>
+              <a href='https://arbitrum.foundation/' className='px-2 max-sm:text-sm'>Name</a>
             </div> 
-            <p className='flex items-center justify-center border border-gray-400 p-2 font-semibold'>Total Value Locked</p> 
-            <p className='flex items-center justify-center border border-gray-400 p-2 font-semibold'>Market Cap</p>
-            <p className='flex items-center justify-center border border-gray-400 p-2 font-semibold'>TVL/MCAP</p>
+            <p className='flex items-center justify-center border border-gray-400 p-2 font-semibold max-sm:text-sm text-center'>TVL</p> 
+            <p className='flex items-center justify-center border border-gray-400 p-2 font-semibold max-sm:text-sm text-center'>MCAP</p>
+            <p className='flex items-center justify-center border border-gray-400 p-2 font-semibold max-sm:text-sm text-center'>TVL/MCAP</p>
 
-            <div className='p-2 font-semibold px-4 flex justify-center items-center border border-gray-400'>
-              <a href='https://arbitrum.foundation/' className='px-2 hover:'>Curve Finance</a>
+            {/* BEGIN PROTOCOLS */}
+            <div className='p-2 px-4 flex justify-center items-center border border-gray-400'>
+              <a href='' className='px-2 max-sm:text-sm text-center'>Curve Finance</a>
             </div> 
-            <p className='flex items-center justify-center border border-gray-400 p-2 font-semibold'>$100,000,000</p> 
-            <p className='flex items-center justify-center border border-gray-400 p-2 font-semibold'>$100,000,000</p>
-            <p className='flex items-center justify-center border border-gray-400 p-2 font-semibold'>1</p>
+            <p className='flex items-center justify-center border border-gray-400 p-2 max-sm:text-sm text-center'>$100,000,000</p> 
+            <p className='flex items-center justify-center border border-gray-400 p-2 max-sm:text-sm text-center'>$100,000,000</p>
+            <p className='flex items-center justify-center border border-gray-400 p-2 max-sm:text-sm text-center'>1</p>
+            {/* END PROTOCOLS */}
 
           </div>
 
