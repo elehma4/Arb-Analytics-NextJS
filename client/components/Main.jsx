@@ -54,9 +54,28 @@ const Main = ( {isSmallScreen} ) => {
                   Chart goes here
               </div>
               
-              
-
           </div>            
+
+          <div className='w-full text-white border-b border-gray-400 mt-2'>
+            <p className='flex items-center max-sm:justify-center px-4 text-xl font-semibold my-2'><img className='w-7 mx-2' src="/assets/arbitrum-logo.png" alt="/" />Protocols on Arbitrum</p>
+          </div>
+
+          <div className='w-full text-white grid grid-cols-4'>
+            <div className='p-2 font-semibold px-4 flex justify-center items-center border border-gray-400'>
+              <a href='https://arbitrum.foundation/' className='px-2 hover:'>Protocol Name</a>
+            </div> 
+            <p className='flex items-center justify-center border border-gray-400 p-2 font-semibold'>Total Value Locked</p> 
+            <p className='flex items-center justify-center border border-gray-400 p-2 font-semibold'>Market Cap</p>
+            <p className='flex items-center justify-center border border-gray-400 p-2 font-semibold'>TVL/MCAP</p>
+
+            <div className='p-2 font-semibold px-4 flex justify-center items-center border border-gray-400'>
+              <a href='https://arbitrum.foundation/' className='px-2 hover:'>Curve Finance</a>
+            </div> 
+            <p className='flex items-center justify-center border border-gray-400 p-2 font-semibold'>$100,000,000</p> 
+            <p className='flex items-center justify-center border border-gray-400 p-2 font-semibold'>$100,000,000</p>
+            <p className='flex items-center justify-center border border-gray-400 p-2 font-semibold'>1</p>
+
+          </div>
 
 
         </div>
