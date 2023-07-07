@@ -3,10 +3,19 @@
 import React, { useEffect, useState } from 'react'
 import '../app/styles/main.css'
 import {BsSearch} from 'react-icons/bs'
-import { getProtocols } from '../slices/mainSlice';
+import { getProtocols, getUserFavorites } from '../slices/mainSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import Search from './Search'
 
 const Main = ( {isSmallScreen} ) => {
+
+  const dispatch = useDispatch();
+  const userID = useSelector(state=>state.main.userID)
+
+  useEffect(() => {
+    console.log('hello', userID)
+    dispatch(getUserFavorites(userID));
+  }, [dispatch, userID]);
 
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
 
@@ -30,8 +39,6 @@ const Main = ( {isSmallScreen} ) => {
   } else {
     chartClass = 'h-[75%]';
   }
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getProtocols())

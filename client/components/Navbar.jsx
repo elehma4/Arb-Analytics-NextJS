@@ -11,6 +11,7 @@ import {MdOutlineClose} from 'react-icons/md'
 const Navbar = ({ onSmallScreenChange }) => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [showSideBar, setShowSideBar] = useState(false)
+  const [showWatchlist, setShowWatchlist] = useState(false)
 
   useEffect(() => {
 
@@ -43,10 +44,11 @@ const Navbar = ({ onSmallScreenChange }) => {
     if(isSmallScreen){
       setShowSideBar(!showSideBar);
     }
-    console.log('clicked')
-    console.log(showSideBar)
-    console.log(isSmallScreen)
   };
+
+  const handleWatchlist = () => {
+    setShowWatchlist(!showWatchlist)
+  }
   
 
   return (
@@ -76,6 +78,10 @@ const Navbar = ({ onSmallScreenChange }) => {
         <div className="flex justify-end">
           <div onClick={handleToggleSidebar} className="mt-3 mr-3"><b><MdOutlineClose className=" scale-150 font-extrabold"/></b></div>
         </div>
+        <div className="flex justify-center" onClick={handleWatchlist}>Watchlist</div>
+        {showWatchlist && (
+          <div>working</div>
+        )}
 
       </div>
     )}

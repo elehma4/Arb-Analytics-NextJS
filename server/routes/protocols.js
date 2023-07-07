@@ -46,6 +46,39 @@ router.get('/protocols', async (req, res) => {
       res.status(500).json({ error: 'Error in fetching data' });
     }
   });
+  router.get('/favorites', async (req, res) => {
+    try {
+      const userID = req.headers['x-user-id'];
+      console.log(userID)
+      const favorites = await db.favorites.findAll({
+        where: {
+          userID
+        }
+      });
+  
+      // Extract the protocol IDs from the favorites
+      const protocolIDs = favorites.map((favorite) => favorite.protocolID);
+  
+      // Fetch the associated protocols based on the protocol IDs
+      const protocols = [];
+      for (const protocolID of protocolIDs) {
+        const protocol = await db.protocols.findOne({
+          where: {
+            id: protocolID
+          }
+        });
+        protocols.push(protocol);
+      }
+  
+      res.json(protocols);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: 'Error in fetching data' });
+    }
+  });
+  
+  
+  
 
 module.exports = router;
 
