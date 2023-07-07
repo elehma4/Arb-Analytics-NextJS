@@ -64,15 +64,15 @@ const Main = ( {isSmallScreen} ) => {
               <div className='font-bold max-sm:grid grid-cols-3 row-span-4'>
                 <div className='m-2'>
                 <p className='text-sm md:text-xl m-1 text-left'>Total Value Locked </p>
-                <p className='md:text-2xl text-lg sm:mb-2 text-white m-1'>$2.17b</p>
+                <p className='max-sm:text-base md:text-2xl text-lg sm:mb-2 text-white m-1'>$2.17b</p>
                 </div>
                 <div className='m-2'>
                 <p className='text-sm md:text-lg m-1 mb-2 text-left'>24hr Fees</p>
-                <p className='text-lg text-white sm:mb-2 ml-1'>$205,417</p>
+                <p className='max-sm:text-base text-lg text-white sm:mb-2 ml-1'>$205,417</p>
                 </div>
                 <div className='m-2'>
                 <p className='text-sm md:text-lg m-1 text-left'>$ARB Price</p>
-                <p className='text-lg text-white sm:mb-2 ml-1'>$1.17</p>
+                <p className='max-sm:text-base text-lg text-white sm:mb-2 ml-1'>$1.17</p>
                 </div>
               </div>
               
@@ -118,11 +118,11 @@ const Main = ( {isSmallScreen} ) => {
                     {protocol.name}
                   </a>
                 </div> 
-                <p className='flex items-center justify-center border border-gray-400 p-2 max-sm:text-sm text-center'>{protocol.TVL ? `$${Math.round(protocol.TVL)}` : '-'}
+                <p className='flex items-center justify-center border border-gray-400 p-2 max-sm:text-sm max-[420px]:text-xs text-center'>{protocol.TVL ? `$${Math.round(protocol.TVL)}` : '-'}
                 </p> 
-                <p className='flex items-center justify-center border border-gray-400 p-2 max-sm:text-sm text-center'>{protocol.MCAP ? `$${Math.round(protocol.MCAP)}` : '-'}
+                <p className='flex items-center justify-center border border-gray-400 p-2 max-sm:text-sm max-[420px]:text-xs text-center'>{protocol.MCAP ? `$${Math.round(protocol.MCAP)}` : '-'}
                 </p>
-                <p className='flex items-center justify-center border border-gray-400 p-2 max-sm:text-sm text-center'>{protocol.TVL && protocol.MCAP ? `${(protocol.TVL / protocol.MCAP).toFixed(2)}` : '-'}
+                <p className='flex items-center justify-center border border-gray-400 p-2 max-sm:text-sm max-[420px]:text-xs text-center'>{protocol.TVL && protocol.MCAP ? `${(protocol.TVL / protocol.MCAP).toFixed(2)}` : '-'}
                 </p>
               </React.Fragment>
             ))
