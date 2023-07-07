@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch} from 'react-redux';
-import { useRouter } from 'next/router';
-import {getProtocols} from '../../../slices/mainSlice'
+import Home from '../../page'
 
 const DetailsPage = ({params}) => {
 

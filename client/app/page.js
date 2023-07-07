@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Main from '../components/Main';
-import DetailsPage from './protocols/[name]/page'
 
 
 export default function Home() {
@@ -23,7 +22,6 @@ export default function Home() {
       <div className="h-full">
         <Navbar onSmallScreenChange={handleSmallScreenChange} />
         <Main isSmallScreen={isSmallScreen} />
-        <DetailsPage />
       </div>
 
 
