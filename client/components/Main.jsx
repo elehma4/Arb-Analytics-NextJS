@@ -1,4 +1,5 @@
 
+
 import React, { useEffect, useState } from 'react'
 import '../app/styles/main.css'
 import {BsSearch} from 'react-icons/bs'
@@ -8,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 const Main = ( {isSmallScreen} ) => {
 
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+
 
   useEffect(() => {
     const handleResize = () => setWindowHeight(window.innerHeight);
@@ -44,20 +46,7 @@ const Main = ( {isSmallScreen} ) => {
 
         <div className={` relative ${isSmallScreen ? 'top-14 mainSmall' : 'left-56 mainBig'} bg-gray-800 h-full mx-auto p-2 sm:p-4 flex flex-col justify-start items-center`}>
           
-          <form className='bg-gray-900 relative rounded-3xl w-full h-24 flex items-start justify-center mx-2 flex-col'>
-            <div className='w-full h-1/2 rounded-t-3xl outline-none bg-black text-white p-2 px-4 flex items-center'>
-              <BsSearch className='mr-2 text-gray-400' />
-              <input className='w-full bg-transparent outline-none text-white placeholder-gray-400' type="search" placeholder="Search" />
-            </div>
-            <div className='h-1/2 p-4 text-white flex justify-apart items-center w-full'>
-              
-              <p className='flex justify-start items-center w-1/2 mx-3 text-sm'>
-              Powered by <img src="/assets/defillama.webp" className='h-9 mx-2' />
-              </p>
-                          
-
-            </div>
-          </form>
+          <Search />
 
 
           <div className='w-full h-3/5 sm:h-1/2 lg:h-3/5 bg-gray-900 rounded-3xl mt-6 p-6 text-gray-400 sm:grid grid-cols-4 grid-rows-4 grid-flow-col gap-2 '>
