@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BsSearch } from 'react-icons/bs';
 import Link from 'next/link';
+import Star from './Star'
 
 const Search = () => {
   const dispatch = useDispatch();
@@ -11,7 +12,6 @@ const Search = () => {
   const [filteredProtocols, setFilteredProtocols] = useState([]);
 
   const protocols = useSelector((state) => state.main.protocols);
-  console.log(protocols);
 
   const handleSearchInput = (event) => {
     const inputValue = event.target.value;
@@ -50,12 +50,15 @@ const Search = () => {
         {showFiltered && (
           <div className="z-10 absolute bg-black w-full max-h-44 overflow-auto text-white top-12 px-4 py-2 rounded-b-3xl shadow-lg">
             {filteredProtocols.map((protocol) => (
+              <div className="flex">
+              <Star item={protocol}/>
               <Link href={`/protocols/${protocol.name}`} key={protocol.id}>
                 <div className="flex my-1">
                   <img className="w-7 mr-2 rounded-full" src={protocol.logo} alt="protocol logo" />
                   <div>{protocol.name}</div>
                 </div>
               </Link>
+              </div>
             ))}
           </div>
         )}

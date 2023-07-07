@@ -7,10 +7,12 @@ import {RxHamburgerMenu} from 'react-icons/rx'
 import {BsSearch} from 'react-icons/bs'
 import {FiSettings} from 'react-icons/fi'
 import {MdOutlineClose} from 'react-icons/md'
+import Favorites from './Favorites'
 
 const Navbar = ({ onSmallScreenChange }) => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [showSideBar, setShowSideBar] = useState(false)
+  const [showWatchlist, setShowWatchlist] = useState(false)
 
   useEffect(() => {
 
@@ -43,10 +45,11 @@ const Navbar = ({ onSmallScreenChange }) => {
     if(isSmallScreen){
       setShowSideBar(!showSideBar);
     }
-    console.log('clicked')
-    console.log(showSideBar)
-    console.log(isSmallScreen)
   };
+
+  const handleWatchlist = () => {
+    setShowWatchlist(!showWatchlist)
+  }
   
 
   return (
@@ -61,6 +64,19 @@ const Navbar = ({ onSmallScreenChange }) => {
           className={` ${isSmallScreen}`}/>
           <div className='ml-2 font-bold text-[15px]'>Arbitrum Analytics</div>
         </Link>
+        {!isSmallScreen && (
+          <div className="py-2">
+          {!showWatchlist && (
+            <div className="flex justify-center" onClick={handleWatchlist}>Show Watchlist</div>
+          )}
+          {showWatchlist && (
+            <>
+              <div className="flex justify-center" onClick={handleWatchlist}>Hide Watchlist</div>
+              <Favorites />
+            </>
+          )}
+          </div>
+        )}
         {isSmallScreen && (
           <div className='flex'>
             <button className="rounded-lg bg-blue-600 mr-2 h-8 w-8" ><BsSearch className="m-auto"/></button>
@@ -76,7 +92,15 @@ const Navbar = ({ onSmallScreenChange }) => {
         <div className="flex justify-end">
           <div onClick={handleToggleSidebar} className="mt-3 mr-3"><b><MdOutlineClose className=" scale-150 font-extrabold"/></b></div>
         </div>
-
+        {!showWatchlist && (
+          <div className="flex justify-center" onClick={handleWatchlist}>Show Watchlist</div>
+        )}
+        {showWatchlist && (
+          <>
+            <div className="flex justify-center" onClick={handleWatchlist}>Hide Watchlist</div>
+            <Favorites />
+          </>
+        )}
       </div>
     )}
     </>

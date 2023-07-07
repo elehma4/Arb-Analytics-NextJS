@@ -3,10 +3,21 @@
 import React, { useEffect, useState } from 'react'
 import '../app/styles/main.css'
 import {BsSearch} from 'react-icons/bs'
-import { getProtocols } from '../slices/mainSlice';
+import { getProtocols, getUserFavorites } from '../slices/mainSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import Search from './Search'
+import Star from './Star'
 
 const Main = ( {isSmallScreen} ) => {
+
+  const dispatch = useDispatch();
+  const userID = useSelector(state=>state.main.userID)
+  const favorites = useSelector(state=>state.main.favorites)
+
+  useEffect(() => {
+    console.log('hello', userID)
+    dispatch(getUserFavorites(userID));
+  }, [dispatch, userID]);
 
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
 
@@ -31,15 +42,11 @@ const Main = ( {isSmallScreen} ) => {
     chartClass = 'h-[75%]';
   }
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(getProtocols())
   }, [dispatch]);
 
   const protocols = useSelector((state) => state.main.protocols);
-
-  console.log(protocols)
 
   return (
     <div id='home' className='h-screen'>
@@ -96,6 +103,7 @@ const Main = ( {isSmallScreen} ) => {
             protocols.map((protocol, index) => (
                 <React.Fragment key={index}>
                 <div className='p-2 px-4 flex justify-center items-center border border-gray-400'>
+                  <Star item={protocol}/>
                   <a 
                   href={protocol.url} 
                   className='px-2 max-sm:text-sm text-center hover:text-blue-600 hover:font-bold flex justify-center items-center'
