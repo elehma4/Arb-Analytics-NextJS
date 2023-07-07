@@ -36,11 +36,12 @@ export const getUserFavorites = createAsyncThunk('main/getUserFavorites', async 
   }
 });
 
-
-export const addFavorite = createAsyncThunk('main/addFavorite', async (favorite, thunkAPI) => {
+export const addFavorite = createAsyncThunk('main/addFavorite', async (item, thunkAPI) => {
   try {
-    // Make the API call to add the favorite to the database
-    const response = await axios.post('http://localhost:3001/favorites', favorite);
+
+    console.log(item)
+    const response = await axios.post('http://localhost:3001/favorites', item);
+    console.log(response.data)
     const addedFavorite = response.data;
 
     return addedFavorite;
@@ -49,6 +50,18 @@ export const addFavorite = createAsyncThunk('main/addFavorite', async (favorite,
     throw new Error("Couldn't add favorite");
   }
 });
+
+export const removeFavorite = createAsyncThunk('main/removeFavorite', async (item, thunkAPI) => {
+  try {
+    await axios.delete(`http://localhost:3001/favorites`, { data: item });
+
+    return item.protocolID;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Couldn't remove favorite");
+  }
+});
+
 
 const mainSlice = createSlice({
   name: 'main',
@@ -73,8 +86,13 @@ const mainSlice = createSlice({
       });
 
       builder.addCase(addFavorite.fulfilled, (state, action) => {
-        // Add the addedFavorite to the protocols array in state
         state.favorites.push(action.payload);
+      });
+  
+      builder.addCase(removeFavorite.fulfilled, (state, action) => {
+        console.log(action.payload)
+        const removedItemId = action.payload;
+        state.favorites = state.favorites.filter((favorite) => favorite.id !== removedItemId);
       });
   },
 });

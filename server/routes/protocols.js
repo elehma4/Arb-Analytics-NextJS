@@ -77,7 +77,55 @@ router.get('/protocols', async (req, res) => {
     }
   });
   
-  
+  // Add favorite
+router.post('/favorites', async (req, res) => {
+  try {
+    const { userID, protocolID } = req.body;
+
+    // Logic to add the favorite to the database
+    // ...
+
+    const favorites = await db.favorites.create({
+      userID,
+      protocolID
+    })
+
+    const protocol = await db.protocols.findOne({
+      where: {
+        id: protocolID
+      }
+    });
+
+    res.status(201).json(protocol);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Error adding favorite' });
+  }
+});
+
+// Remove favorite
+router.delete('/favorites', async (req, res) => {
+  try {
+    console.log('109')
+    const { userID, protocolID } = req.body;
+    console.log(userID, protocolID)
+
+    // Logic to remove the favorite from the database
+    // ...
+
+    await db.favorites.destroy({
+      where: {
+        userID,
+        protocolID
+      }
+    });
+
+    res.status(200).json({ message: 'Favorite removed successfully' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Error removing favorite' });
+  }
+});
   
 
 module.exports = router;
