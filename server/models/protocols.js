@@ -19,7 +19,9 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.STRING,
     symbol: DataTypes.STRING,
     url: DataTypes.STRING,
-    logo: DataTypes.STRING
+    logo: DataTypes.STRING,
+    TVL: DataTypes.DOUBLE,
+    MCAP: DataTypes.DOUBLE
   }, {
     sequelize,
     modelName: 'protocols',
