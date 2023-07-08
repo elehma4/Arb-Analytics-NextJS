@@ -12,7 +12,6 @@ import Favorites from './Favorites'
 const Navbar = ({ onSmallScreenChange }) => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [showSideBar, setShowSideBar] = useState(false)
-  const [showWatchlist, setShowWatchlist] = useState(false)
 
   useEffect(() => {
 
@@ -65,16 +64,9 @@ const Navbar = ({ onSmallScreenChange }) => {
           <div className='ml-2 font-bold text-[15px]'>Arbitrum Analytics</div>
         </Link>
         {!isSmallScreen && (
-          <div className="py-2">
-          {!showWatchlist && (
-            <div className="flex justify-center" onClick={handleWatchlist}>Show Watchlist</div>
-          )}
-          {showWatchlist && (
-            <>
-              <div className="flex justify-center" onClick={handleWatchlist}>Hide Watchlist</div>
+          <div className="py-2 my-3">
+              <div className="flex justify-center font-medium mb-1" onClick={handleWatchlist}>Your Watchlist</div>
               <Favorites />
-            </>
-          )}
           </div>
         )}
         {isSmallScreen && (
@@ -88,19 +80,14 @@ const Navbar = ({ onSmallScreenChange }) => {
       </div>
     </div>
     {(isSmallScreen && showSideBar)&& (
-      <div className="slideInUp fixed right-0 w-64 bg-gray-700 z-20 text-white h-full">
-        <div className="flex justify-end">
+      <div className="slideInUp fixed right-0 w-64 bg-gray-700 z-20 text-white h-full px-2">
+        <div className="flex justify-end mb-1">
           <div onClick={handleToggleSidebar} className="mt-3 mr-3"><b><MdOutlineClose className=" scale-150 font-extrabold"/></b></div>
         </div>
-        {!showWatchlist && (
-          <div className="flex justify-center" onClick={handleWatchlist}>Show Watchlist</div>
-        )}
-        {showWatchlist && (
-          <>
-            <div className="flex justify-center" onClick={handleWatchlist}>Hide Watchlist</div>
-            <Favorites />
-          </>
-        )}
+        
+        <div className="flex justify-center font-medium" onClick={handleWatchlist}>Your Watchlist</div>
+        <Favorites />
+          
       </div>
     )}
     </>
