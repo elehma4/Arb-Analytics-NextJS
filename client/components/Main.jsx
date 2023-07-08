@@ -5,6 +5,7 @@ import '../app/styles/main.css'
 import {BsSearch} from 'react-icons/bs'
 import { getProtocols, getUserFavorites } from '../slices/mainSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import Link from 'next/link';
 import Search from './Search'
 import Star from './Star'
 
@@ -104,8 +105,8 @@ const Main = ( {isSmallScreen} ) => {
                 <React.Fragment key={index}>
                 <div className='p-2 px-4 flex justify-center items-center border border-gray-400'>
                   <Star item={protocol}/>
-                  <a 
-                  href={protocol.url} 
+                  <Link 
+                  href={`/protocols/${protocol.name}`}
                   className='px-2 max-sm:text-sm text-center hover:text-blue-600 hover:font-bold flex justify-center items-center'
                   >
                     {
@@ -113,7 +114,7 @@ const Main = ( {isSmallScreen} ) => {
                       : <div/>
                     }
                     {protocol.name}
-                  </a>
+                  </Link>
                 </div> 
                 <p className='flex items-center justify-center border border-gray-400 p-2 max-sm:text-sm max-[420px]:text-xs text-center'>{protocol.TVL ? `$${Math.round(protocol.TVL)}` : '-'}
                 </p> 
