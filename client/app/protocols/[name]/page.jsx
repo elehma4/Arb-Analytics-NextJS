@@ -43,38 +43,34 @@ const DetailsPage = ({params}) => {
 
       <Navbar onSmallScreenChange={handleSmallScreenChange} />
 
-      <div className={` relative ${isSmallScreen ? 'top-14 mainSmall' : 'left-56 mainBig'} bg-gray-800 h-full mx-auto p-2 sm:p-4 flex flex-col justify-start items-center`}>
-
-      
+      <div className={` relative ${isSmallScreen ? 'top-14 mainSmall' : 'left-56 mainBig'} bg-gray-800 h-full m-auto p-2 sm:p-4 flex flex-col justify-start items-center`}>
 
         {protocol && (
           <>
-          <img src={protocol.logo} alt="" className='w-44 rounded-full' />
+          <img src={protocol.logo} alt="" className='w-44 rounded-full border-2 border-gray-900' />
           <div className='text-white text-3xl font-semibold my-2'>{protocol.name}</div>
           <div className='text-white text-center mb-4'>{protocol.description}</div>
 
-          <div className='w-full h-1/2 grid grid-cols-4 grid-rows-4 rounded-3xl bg-gray-900'>
-
-            <div className='col-span-4 flex items-center justify-evenly'>
-              <button className='bg-[#3267D6] lg:text-lg hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200'>TVL Chart</button>
-              <div>
-                <p className='text-sm md:text-xl m-1 text-left text-gray-400'>Total Value Locked </p>
-                <p className='max-sm:text-base md:text-2xl text-lg sm:mb-2 text-white m-1'>$2.17b</p>
+          <div className='w-full h-1/2 grid lg:grid-cols-6 lg:grid-rows-5 gap-2 bg-gray-900 rounded-md md:grid-cols-4 md:grid-rows-4 sm:grid-cols-4 sm:grid-rows-4 max-sm:grid-cols-4 max-sm:grid-rows-4'>
+            <div className='col-span-3 md:col-span-4 sm:col-span-4 max-sm:col-span-4 flex'>
+              <div className='flex items-center justify-start'>
+                <button className='bg-[#3267D6] hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200'>TVL Chart</button>
+                <div>
+                  <p className='m-1 text-left text-gray-400'>Total Value Locked </p>
+                  <p className='sm:mb-2 text-white m-1'>$2.17b</p>
+                </div>
               </div>
-              
-              <button className='bg-[#3267D6] lg:text-lg hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200'>${protocol.symbol} Chart</button>
-              <div>
-                <p className='text-sm md:text-lg m-1 text-left text-gray-400'>${protocol.symbol} Price</p>
-                <p className='max-sm:text-base text-lg text-white sm:mb-2 ml-1'>$1.17</p>
+              <div className='flex items-center justify-start'>
+                <button className='bg-[#3267D6] hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200'>${protocol.symbol} Chart</button>
+                <div>
+                  <p className='m-1 text-left text-gray-400'>${protocol.symbol} Price</p>
+                  <p className='text-white sm:mb-2 ml-1'>$1.17</p>
+                </div>
               </div>
-              
-            </div>
-
-            
-            <div className='col-span-4 row-start-2 row-span-full border'>
+            </div>            
+            <div className='lg:col-span-3 lg:row-start-2 row-span-full border lg:rounded-bl-md max-lg:h-auto md:row-start-2 md:col-span-4 sm:row-start-2 sm:col-span-4 max-sm:row-start-2 max-sm:col-span-4'>
               Charts here
             </div>
-
           </div>
 
           </>
