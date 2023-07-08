@@ -22,7 +22,6 @@ const Main = ( {isSmallScreen} ) => {
 
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
 
-
   useEffect(() => {
     const handleResize = () => setWindowHeight(window.innerHeight);
     window.addEventListener('resize', handleResize);
