@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 import Home from '../../page'
 import Navbar from '@/components/Navbar';
-import axios from 'axios';
 
 const DetailsPage = ({params}) => {
 

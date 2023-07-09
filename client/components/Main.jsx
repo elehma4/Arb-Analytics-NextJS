@@ -1,6 +1,5 @@
-
-
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
+import { createChart } from 'lightweight-charts'
 import '../app/styles/main.css'
 import {BsSearch} from 'react-icons/bs'
 import { getProtocols, getUserFavorites } from '../slices/mainSlice';
@@ -8,8 +7,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
 import Search from './Search'
 import Star from './Star'
+import axios from 'axios';
 
 const Main = ( {isSmallScreen} ) => {
+
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+  const [marketData, setMarketData] = useState(null);
+  const [dataType, setDataType] = useState('TVL')
 
   const dispatch = useDispatch();
   const userID = useSelector(state=>state.main.userID)
@@ -19,8 +23,6 @@ const Main = ( {isSmallScreen} ) => {
     console.log('hello', userID)
     dispatch(getUserFavorites(userID));
   }, [dispatch, userID]);
-
-  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
 
   useEffect(() => {
     const handleResize = () => setWindowHeight(window.innerHeight);
@@ -48,6 +50,117 @@ const Main = ( {isSmallScreen} ) => {
 
   const protocols = useSelector((state) => state.main.protocols);
 
+  async function fetchMarketData(dataType){
+    let url;
+    switch(dataType){
+      case 'TVL':
+        url = 'https://api.llama.fi/v2/historicalChainTvl/Arbitrum';
+        break;
+      case 'FEES':
+        url = 'https://api.llama.fi/summary/fees/arbitrum?dataType=dailyFees';
+        break;
+      case 'PRICE':
+        url = 'https://api.coingecko.com/api/v3/coins/arbitrum/market_chart?vs_currency=usd&days=max&interval=daily';
+        break;
+      default:
+        throw new Error('Unknown data type')
+    }
+
+    const response = await axios.get(url);
+    const data = response.data;
+    console.log(data);
+    let marketData = [];
+
+    if(dataType === 'PRICE'){
+      const {prices} = data;
+      marketData = prices.map(price => ({
+        time: price[0] / 1000, // convert ms to secs
+        value: price[1]
+      }));
+    } else if (dataType === 'TVL') {
+      marketData = data.map(datapoint => ({
+        time: new Date(datapoint.date).getTime() / 1000,  // convert date string to Unix timestamp
+        value: datapoint.tvl
+      }));
+    } else if (dataType === 'FEES') {
+      marketData = data.totalDataChart.map(datapoint => ({
+        time: datapoint[0],  // Already in Unix timestamp format
+        value: datapoint[1]
+      }));
+    }
+
+    console.log(marketData);
+    return marketData;
+  }
+  fetchMarketData('TVL')
+
+  useEffect(() => {
+    fetchMarketData(dataType).then(data => setMarketData(data))
+  }, [dataType]);
+
+  const chartContainerRef = useRef();
+  const chartRef = useRef(null);
+
+  useEffect(() => {
+    if(marketData === null){
+      return;
+    }
+
+    console.log(`rendering chart`);
+
+    if(chartRef.current){
+      chartRef.current.remove();
+      chartRef.current = null;
+    }
+
+    // Create chart:
+    const chart = createChart(chartContainerRef.current, {
+      layout: {
+        background: { color: '#000033' },
+        textColor: '#DDD'
+      },
+      grid: {
+        vertLines: { color: '#444' },
+        horzLines: { color: '#444' }
+      }
+    })
+
+    chartRef.current = chart;
+
+    const lineData = marketData.map(datapoint => ({
+      time: datapoint.time
+    }))
+
+    const areaSeries = chart.addAreaSeries({
+      lastValueVisible: false,
+      crosshairMarkerVisible: false,
+      lineColor: 'rgba(56, 33, 110, 1)',
+      topColor: 'rgba(56, 33, 110, 0.6)',
+      bottomColor: 'rgba(56, 33, 110, 0.1)', 
+    });
+    areaSeries.setData(marketData);
+
+    const mainSeries = chart.addAreaSeries();
+    mainSeries.setData(marketData);
+
+    const resizeObserver = new ResizeObserver(entries => {
+      window.requestAnimationFrame(() => {
+          for (let entry of entries) {
+              const { width, height } = entry.contentRect;
+              chart.resize(width, height);
+          }
+      });
+    });
+
+    resizeObserver.observe(chartContainerRef.current);
+
+    return () => {
+      if (chartContainerRef.current){
+        resizeObserver.unobserve(chartContainerRef.current);
+      }
+    };
+  }, [marketData])
+
   return (
     <div id='home' className='h-screen'>
 
@@ -74,13 +187,11 @@ const Main = ( {isSmallScreen} ) => {
               
               
               <div className='w-full h-auto m-auto flex items-start justify-start sm:p-2 font-normal col-span-3 mb-2'>
-                <button className='bg-[#3267D6] lg:text-lg hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200'>TVL</button>
-                <button className='bg-[#3267D6] lg:text-lg hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200'>Fees</button>
-                <button className='bg-[#3267D6] lg:text-lg hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200'>$ARB Price</button>
+                <button onClick={() => setDataType('TVL')} className='bg-[#3267D6] lg:text-lg hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200'>TVL</button>
+                <button onClick={() => setDataType('FEES')} className='bg-[#3267D6] lg:text-lg hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200'>Fees</button>
+                <button onClick={() => setDataType('PRICE')} className='bg-[#3267D6] lg:text-lg hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200'>$ARB Price</button>
               </div>
-              <div className={`border-2 w-full ${chartClass} sm:h-auto row-span-3 col-span-3`}>
-                  Chart goes here
-              </div>
+              <div ref={chartContainerRef} className={`border-2 border-gray-400 w-full ${chartClass} sm:h-auto row-span-3 col-span-3`} />
               
           </div>            
 
