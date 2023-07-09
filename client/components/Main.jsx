@@ -13,7 +13,6 @@ import {LuArrowUpDown, LuArrowDown, LuArrowUp} from 'react-icons/lu'
 
 const Main = ( {isSmallScreen} ) => {
 
-  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
   const [marketData, setMarketData] = useState(null);
   const [dataType, setDataType] = useState('TVL')
 
