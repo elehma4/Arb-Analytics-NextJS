@@ -46,10 +46,6 @@ const Navbar = ({ onSmallScreenChange }) => {
     }
   };
 
-  const handleWatchlist = () => {
-    setShowWatchlist(!showWatchlist)
-  }
-  
 
   return (
     <>
@@ -65,7 +61,7 @@ const Navbar = ({ onSmallScreenChange }) => {
         </Link>
         {!isSmallScreen && (
           <div className="py-2 my-3">
-              <div className="flex justify-center font-medium mb-1" onClick={handleWatchlist}>Your Watchlist</div>
+              <div className="flex justify-center font-medium mb-1">Your Watchlist</div>
               <Favorites />
           </div>
         )}
@@ -85,7 +81,7 @@ const Navbar = ({ onSmallScreenChange }) => {
           <div onClick={handleToggleSidebar} className="mt-3 mr-3"><b><MdOutlineClose className=" scale-150 font-extrabold"/></b></div>
         </div>
         
-        <div className="flex justify-center font-medium" onClick={handleWatchlist}>Your Watchlist</div>
+        <div className="flex justify-center font-medium">Your Watchlist</div>
         <Favorites />
           
       </div>
