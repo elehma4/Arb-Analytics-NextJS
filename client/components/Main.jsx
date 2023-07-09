@@ -7,7 +7,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
 import Search from './Search'
 import Star from './Star'
-import axios from 'axios';
+import axios from 'axios'
+import SortIcon from './SortIcon'
+import {LuArrowUpDown, LuArrowDown, LuArrowUp} from 'react-icons/lu'
 
 const Main = ( {isSmallScreen} ) => {
 
@@ -20,9 +22,15 @@ const Main = ( {isSmallScreen} ) => {
   const favorites = useSelector(state=>state.main.favorites)
 
   useEffect(() => {
-    console.log('hello', userID)
     dispatch(getUserFavorites(userID));
   }, [dispatch, userID]);
+
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+  const [displayedProtocols, setDisplayedProtocols] = useState([])
+  const [sortDirection, setSortDirection] = useState('default')
+  const [sortTerm, setSortTerm] = useState('default')
+  const [prevSortDirection, setPrevSortDirection] = useState('default');
+  const [prevSortTerm, setPrevSortTerm] = useState('default')
 
   useEffect(() => {
     const handleResize = () => setWindowHeight(window.innerHeight);
@@ -46,6 +54,7 @@ const Main = ( {isSmallScreen} ) => {
 
   useEffect(() => {
     dispatch(getProtocols())
+
   }, [dispatch]);
 
   const protocols = useSelector((state) => state.main.protocols);
@@ -161,6 +170,74 @@ const Main = ( {isSmallScreen} ) => {
     };
   }, [marketData])
 
+  useEffect(() => {
+    
+    setDisplayedProtocols(protocols)
+    
+  }, [protocols])
+
+  const handleSort = (term) => {
+    if (term === prevSortTerm) {
+      setSortTerm(term)
+      setSortDirection((prevDirection) => {
+        // Inside this arrow function, prevDirection refers to the previous value of sortDirection
+        if (prevDirection === 'asc') {
+          console.log('asc')
+          setPrevSortDirection('asc');
+          return 'desc';
+        } else if (prevDirection === 'desc') {
+          console.log('desc')
+          setPrevSortDirection('desc');
+          setSortTerm('default')
+          return 'default';
+        } else {
+          console.log('else')
+          setPrevSortDirection('default');
+          return 'asc';
+        }
+      });
+    } else {
+      setSortTerm(term);
+      setPrevSortTerm(term);
+      setPrevSortDirection('default');
+      setSortDirection('asc');
+    }
+  };
+  
+
+  useEffect(() => {
+
+    let updatedProtocols = protocols.map((protocol) => {
+      const { TVL, MCAP } = protocol;
+      const tvlMcapRatio = TVL && MCAP ? TVL / MCAP : 0;
+      return {
+        ...protocol,
+        'TVL/MCAP': tvlMcapRatio,
+      };
+    });
+    let sortedProtocols = [...updatedProtocols];
+  
+    if (sortTerm !== 'default') {
+      console.log('now')
+      sortedProtocols.sort((a, b) => {
+        const valueA = a[sortTerm] || 0; // Consider null values as 0
+        const valueB = b[sortTerm] || 0;
+  
+        if (sortTerm === 'name') {
+          return valueA.localeCompare(valueB);
+        } else {
+          return valueA - valueB;
+        }
+      });
+    }
+  
+    if (sortDirection === 'desc') {
+      sortedProtocols.reverse();
+    }
+  
+    setDisplayedProtocols(sortedProtocols);
+  }, [protocols, sortTerm, sortDirection]);
+
   return (
     <div id='home' className='h-screen'>
 
@@ -201,17 +278,57 @@ const Main = ( {isSmallScreen} ) => {
 
           <div className='w-full text-white grid grid-cols-4'>
             <div className='p-2 font-semibold px-4 flex justify-center items-center border border-gray-400'>
-              <p className='px-2 max-sm:text-sm'>Name</p>
+              <p className={`px-2 max-sm:text-sm cursor-pointer ${
+                sortTerm === 'name' ? 'text-blue-600' : ''
+              }`}
+              onClick={() => handleSort('name')}
+              >
+                Name
+                {sortTerm !== 'name' && (
+                  <LuArrowUpDown></LuArrowUpDown>
+                )}
+                {sortTerm === 'name' && (
+                <SortIcon direction={sortDirection} />
+              )}
+              </p>
+
             </div> 
-            <p className='flex items-center justify-center border border-gray-400 p-2 font-semibold max-sm:text-sm text-center'>TVL</p> 
-            <p className='flex items-center justify-center border border-gray-400 p-2 font-semibold max-sm:text-sm text-center'>MCAP</p>
-            <p className='flex items-center justify-center border border-gray-400 p-2 font-semibold max-sm:text-sm text-center'>TVL/MCAP</p>
+            <p className={`flex items-center justify-center border border-gray-400 p-2 font-semibold max-sm:text-sm text-center cursor-pointer ${
+                sortTerm === 'TVL' ? 'text-blue-600' : ''
+              }`} onClick={() => handleSort('TVL')}>TVL
+            {sortTerm !== 'TVL' && (
+                  <LuArrowUpDown></LuArrowUpDown>
+                )}
+                {sortTerm === 'TVL' && (
+                <SortIcon direction={sortDirection} />
+              )}
+            </p> 
+            <p className={`flex items-center justify-center border border-gray-400 p-2 font-semibold max-sm:text-sm text-center cursor-pointer ${
+                sortTerm === 'MCAP' ? 'text-blue-600' : ''
+              }`} onClick={() => handleSort('MCAP')}>MCAP
+            {sortTerm !== 'MCAP' && (
+                  <LuArrowUpDown></LuArrowUpDown>
+                )}
+                {sortTerm === 'MCAP' && (
+                <SortIcon direction={sortDirection} />
+              )}
+            </p>
+            <p className={`flex items-center justify-center border border-gray-400 p-2 font-semibold max-sm:text-sm text-center ${
+                sortTerm === 'TVL/MCAP' ? 'text-blue-600' : ''
+              }`} onClick={() => handleSort('TVL/MCAP')}>MCAP
+            {sortTerm !== 'TVL/MCAP' && (
+                  <LuArrowUpDown></LuArrowUpDown>
+                )}
+                {sortTerm === 'TVL/MCAP' && (
+                <SortIcon direction={sortDirection} />
+              )}
+            </p>
           </div>
 
           {/* BEGIN PROTOCOLS */}
           <div className='w-full text-white grid grid-cols-4'>
           { 
-            protocols.map((protocol, index) => (
+            displayedProtocols.map((protocol, index) => (
                 <React.Fragment key={index}>
                 <div className='p-2 px-4 flex justify-center items-center border border-gray-400'>
                   <Star item={protocol}/>
