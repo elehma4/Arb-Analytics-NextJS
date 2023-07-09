@@ -4,10 +4,12 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 import Home from '../../page'
 import Navbar from '@/components/Navbar';
+import Chart from '@/components/Chart'
 
 const DetailsPage = ({params}) => {
 
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [dataType, setDataType] = useState('TVL')
 
   useEffect(() => {
     setIsSmallScreen(window.innerWidth < 768);
@@ -30,7 +32,6 @@ const DetailsPage = ({params}) => {
         console.log(modifiedString);
         console.log(protocols)
         const foundProtocol = protocols.find((protocol) => {
-          console.log(protocol.name, modifiedString)
           return protocol.name === modifiedString});
         setProtocol(foundProtocol);
         console.log(protocol)
@@ -49,6 +50,28 @@ const DetailsPage = ({params}) => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  console.log(protocol)
+
+  const displayPrice = (num) => {
+    const newNum = num.toFixed(2)
+    const dollar = `$${String(newNum)}`;
+    const withCommas = addCommas(dollar)
+    return withCommas;
+  }
+
+  const addCommas = (string) => {
+    for(let i = string.length; i > 1; i--){
+      if(string[i] === '.'){
+        for (let j = string.length-3; j > 1; j-=3){
+          if(j !== string.length-3){
+            string = string.slice(0,j) + "," + string.slice(j)
+          }
+        }
+        return string
+      }
+    }
+  }
   
   return (
     <div id='protocols' className='h-screen'>
@@ -66,14 +89,14 @@ const DetailsPage = ({params}) => {
           <div className='w-full h-1/2 grid lg:grid-cols-6 lg:grid-rows-5 gap-2 bg-gray-900 rounded-md md:grid-cols-4 md:grid-rows-4 sm:grid-cols-4 sm:grid-rows-4 max-sm:grid-cols-4 max-sm:grid-rows-4'>
             <div className='lg:col-span-3 md:col-span-4 sm:col-span-4 max-sm:col-span-4 flex'>
               <div className='flex items-center justify-start'>
-                <button className='bg-[#3267D6] hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200'>TVL Chart</button>
+                <button className='bg-[#3267D6] hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200' onClick={()=>setDataType('TVL')}>TVL Chart</button>
                 <div>
                   <p className='m-1 text-left text-gray-400'>Total Value Locked </p>
-                  <p className='sm:mb-2 text-white m-1'>$2.17b</p>
+                  <p className='sm:mb-2 text-white m-1'>{displayPrice(protocol.TVL)}</p>
                 </div>
               </div>
               <div className='flex items-center justify-start'>
-                <button className='bg-[#3267D6] hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200'>${protocol.symbol} Chart</button>
+                <button className='bg-[#3267D6] hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200' onClick={()=>setDataType('PRICE')}>${protocol.symbol} Chart</button>
                 <div>
                   <p className='m-1 text-left text-gray-400'>${protocol.symbol} Price</p>
                   <p className='text-white sm:mb-2 ml-1'>$1.17</p>
@@ -88,7 +111,7 @@ const DetailsPage = ({params}) => {
           }
             
             <div className='m-1 lg:col-span-3 row-span-full border max-lg:h-auto md:row-start-2 md:col-span-4 sm:row-start-2 sm:col-span-4 max-sm:row-start-2 max-sm:col-span-4 p-1'>
-              Charts here
+              <Chart name={protocol.name} type={dataType}/>
             </div>
 
           {showVolume &&
