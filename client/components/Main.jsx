@@ -87,7 +87,7 @@ const Main = ( {isSmallScreen} ) => {
       }));
     } else if (dataType === 'TVL') {
       marketData = data.map(datapoint => ({
-        time: new Date(datapoint.date).getTime() / 1000,  // convert date string to Unix timestamp
+        time: datapoint.date,
         value: datapoint.tvl
       }));
     } else if (dataType === 'FEES') {
@@ -277,14 +277,14 @@ const Main = ( {isSmallScreen} ) => {
 
           <div className='w-full text-white grid grid-cols-4'>
             <div className='p-2 font-semibold px-4 flex justify-center items-center border border-gray-400'>
-              <p className={`px-2 max-sm:text-sm cursor-pointer ${
+              <p className={`flex items-center px-2 max-sm:text-sm cursor-pointer ${
                 sortTerm === 'name' ? 'text-blue-600' : ''
               }`}
               onClick={() => handleSort('name')}
               >
                 Name
                 {sortTerm !== 'name' && (
-                  <LuArrowUpDown></LuArrowUpDown>
+                  <LuArrowUpDown className="ml-1"></LuArrowUpDown>
                 )}
                 {sortTerm === 'name' && (
                 <SortIcon direction={sortDirection} />
@@ -296,7 +296,7 @@ const Main = ( {isSmallScreen} ) => {
                 sortTerm === 'TVL' ? 'text-blue-600' : ''
               }`} onClick={() => handleSort('TVL')}>TVL
             {sortTerm !== 'TVL' && (
-                  <LuArrowUpDown></LuArrowUpDown>
+                  <LuArrowUpDown className="ml-1"></LuArrowUpDown>
                 )}
                 {sortTerm === 'TVL' && (
                 <SortIcon direction={sortDirection} />
@@ -306,17 +306,17 @@ const Main = ( {isSmallScreen} ) => {
                 sortTerm === 'MCAP' ? 'text-blue-600' : ''
               }`} onClick={() => handleSort('MCAP')}>MCAP
             {sortTerm !== 'MCAP' && (
-                  <LuArrowUpDown></LuArrowUpDown>
+                  <LuArrowUpDown className="ml-1"></LuArrowUpDown>
                 )}
                 {sortTerm === 'MCAP' && (
                 <SortIcon direction={sortDirection} />
               )}
             </p>
-            <p className={`flex items-center justify-center border border-gray-400 p-2 font-semibold max-sm:text-sm text-center ${
+            <p className={`flex items-center justify-center border border-gray-400 p-2 font-semibold max-sm:text-sm text-center cursor-pointer${
                 sortTerm === 'TVL/MCAP' ? 'text-blue-600' : ''
-              }`} onClick={() => handleSort('TVL/MCAP')}>MCAP
+              }`} onClick={() => handleSort('TVL/MCAP')}>TVL/MCAP
             {sortTerm !== 'TVL/MCAP' && (
-                  <LuArrowUpDown></LuArrowUpDown>
+                  <LuArrowUpDown className="ml-1"></LuArrowUpDown>
                 )}
                 {sortTerm === 'TVL/MCAP' && (
                 <SortIcon direction={sortDirection} />
@@ -329,11 +329,11 @@ const Main = ( {isSmallScreen} ) => {
           { 
             displayedProtocols.map((protocol, index) => (
                 <React.Fragment key={index}>
-                <div className='p-2 px-4 flex justify-center items-center border border-gray-400'>
+                <div className='p-2 px-4 flex justify-start items-center border border-gray-400'>
                   <Star item={protocol}/>
                   <Link 
                   href={`/protocols/${protocol.name}`}
-                  className='px-2 max-sm:text-sm text-center hover:text-blue-600 hover:font-bold flex justify-center items-center'
+                  className='px-2 max-sm:text-sm text-center hover:text-blue-600 hover:font-bold flex flex-wrap justify-center items-center'
                   >
                     {
                       window.innerWidth > 768 ?  <img className='w-7 mx-2 rounded-full' src={protocol.logo} alt="protocol" />

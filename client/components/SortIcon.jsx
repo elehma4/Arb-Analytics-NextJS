@@ -3,7 +3,7 @@ import {LuArrowUpDown, LuArrowDown, LuArrowUp} from 'react-icons/lu'
 
 const SortIcon = ({direction}) => {
   return (
-    <>
+    <div className="ml-1">
 
     {(direction === 'default') && (
         <LuArrowUpDown></LuArrowUpDown>
@@ -15,7 +15,7 @@ const SortIcon = ({direction}) => {
         <LuArrowUp></LuArrowUp>
     )}
     
-    </>
+    </div>
   )
 }
 
