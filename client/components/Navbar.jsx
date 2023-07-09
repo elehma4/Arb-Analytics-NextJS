@@ -10,7 +10,6 @@ import {MdOutlineClose} from 'react-icons/md'
 import Favorites from './Favorites'
 import dynamic from 'next/dynamic';
 const ethers = dynamic(() => import('ethers'), {ssr: false});
-// import {ethers} from 'ethers';
 
 const Navbar = ({ onSmallScreenChange }) => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
