@@ -4,7 +4,6 @@ import Favorite from './Favorite'
 
 const Favorites = () => {
   const favorites = useSelector((state) => state.main.favorites);
-  console.log(favorites)
 
   return (
     <div>

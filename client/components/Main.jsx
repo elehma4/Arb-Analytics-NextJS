@@ -312,7 +312,7 @@ const Main = ( {isSmallScreen} ) => {
                 <SortIcon direction={sortDirection} />
               )}
             </p>
-            <p className={`flex items-center justify-center border border-gray-400 p-2 font-semibold max-sm:text-sm text-center cursor-pointer${
+            <p className={`flex items-center justify-center border border-gray-400 p-2 font-semibold max-sm:text-sm text-center cursor-pointer ${
                 sortTerm === 'TVL/MCAP' ? 'text-blue-600' : ''
               }`} onClick={() => handleSort('TVL/MCAP')}>TVL/MCAP
             {sortTerm !== 'TVL/MCAP' && (
