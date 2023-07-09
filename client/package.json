@@ -15,6 +15,7 @@
     "axios": "^1.4.0",
     "eslint": "8.43.0",
     "eslint-config-next": "13.4.7",
+    "ethers": "^6.6.2",
     "lightweight-charts": "^4.0.1",
     "mathjs": "^11.8.2",
     "next": "13.4.7",
