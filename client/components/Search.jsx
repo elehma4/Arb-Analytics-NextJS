@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BsSearch } from 'react-icons/bs';
 import Link from 'next/link';
 import Star from './Star'
+import axios from 'axios';
 
 const Search = () => {
   const dispatch = useDispatch();
@@ -12,10 +13,11 @@ const Search = () => {
   const [searchInput, setSearchInput] = useState('');
   const [showFiltered, setShowFiltered] = useState(false);
   const [filteredProtocols, setFilteredProtocols] = useState([]);
+  const [searchedProtocol, setSearchedProtocol] = useState("")
 
   const protocols = useSelector((state) => state.main.protocols);
 
-  const handleSearchInput = (event) => {
+  const handleSearchInput = async (event) => {
     const inputValue = event.target.value;
     setSearchInput(inputValue);
 
@@ -30,6 +32,30 @@ const Search = () => {
       setFilteredProtocols(filtered);
     }
   };
+
+  const handleSubmit = async () => {
+    if (searchInput !== ''){
+      try {
+        const response = await axios.post('http://localhost:3001/performance_logs', {
+          event_category: 'protocol_search',
+          event_type: 'search',
+          event_value: searchedProtocol,
+          page_url: window.location.href,
+        });
+        console.log(response.data);
+      } catch (error) {
+        console.error('Error logging search: ', error);
+      }
+    }
+  }
+
+  const submitToDB = (protocolName) => {
+    setSearchedProtocol(protocolName);
+  }
+
+  useEffect(() => {
+    handleSubmit();
+  }, [searchedProtocol])
 
   useEffect(() => {
     console.log(searchInput);
@@ -54,12 +80,14 @@ const Search = () => {
             {filteredProtocols.map((protocol) => (
               <div className="flex">
               <Star item={protocol}/>
+              <button onClick={() => submitToDB(protocol.name)}>
               <Link href={`/protocols/${protocol.name}`} key={protocol.id}>
                 <div className="flex my-1">
                   <img className="w-7 mr-2 rounded-full" src={protocol.logo} alt="protocol logo" />
                   <div>{protocol.name}</div>
                 </div>
               </Link>
+              </button>
               </div>
             ))}
           </div>

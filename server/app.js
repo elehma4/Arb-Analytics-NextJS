@@ -14,6 +14,8 @@ app.use(require('./routes/authentication'))
 // ENTERS PROTOCOLS INTO DB:
 app.use(require('./routes/protocols'))
 
+app.use(require('./routes/performanceLogs'))
+
 // Fetch & update TVL/MCAP for each protocol
 async function fetchAndUpdate() {
     // Fetch all protocols from your database
