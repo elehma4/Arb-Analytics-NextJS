@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Main from '../components/Main';
+import RequireAuth from '../components/RequireAuth'
 
 
 export default function Home() {
@@ -18,11 +19,12 @@ export default function Home() {
 
   return (
 
-    
+    <RequireAuth>
       <div className="h-full">
         <Navbar onSmallScreenChange={handleSmallScreenChange} />
         <Main isSmallScreen={isSmallScreen} />
       </div>
+    </RequireAuth>
 
 
     

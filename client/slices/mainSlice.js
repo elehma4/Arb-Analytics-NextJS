@@ -4,7 +4,7 @@ import axios from 'axios';
 const initialState = {
   protocols: [],
   isLoading: false,
-  userID: 18,
+  userID: '',
   favorites: []
 };
 
@@ -62,11 +62,25 @@ export const removeFavorite = createAsyncThunk('main/removeFavorite', async (ite
   }
 });
 
+export const updateUserID = createAsyncThunk('main/updateUserID', async (_, { getState }) => {
+  try {
+    const userID = getState().auth.userId;
+    return userID;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Couldn't update userID");
+  }
+});
+
 
 const mainSlice = createSlice({
   name: 'main',
   initialState,
-  reducers: {},
+  reducers: {
+    setUserID: (state, action) => {
+      state.userID = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getProtocols.pending, (state, action) => {
@@ -82,6 +96,7 @@ const mainSlice = createSlice({
       });
 
       builder.addCase(getUserFavorites.fulfilled, (state, action) => {
+        state.favorites = []
         state.favorites = action.payload;
       });
 
@@ -94,7 +109,16 @@ const mainSlice = createSlice({
         const removedItemId = action.payload;
         state.favorites = state.favorites.filter((favorite) => favorite.id !== removedItemId);
       });
+
+      // Add the custom reducer to update state.main.userID
+      builder.addCase(updateUserID.fulfilled, (state, action) => {
+        console.log('updated user')
+        state.userID = action.payload;
+        state.favorites = []
+      });
   },
 });
+
+export const { setUserID } = mainSlice.actions;
 
 export default mainSlice.reducer;

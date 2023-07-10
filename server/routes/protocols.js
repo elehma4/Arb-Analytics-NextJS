@@ -20,6 +20,7 @@ router.get('/protocols', async (req, res) => {
   router.get('/favorites', async (req, res) => {
     try {
       const userID = req.headers['x-user-id'];
+      console.log('userID', userID)
       console.log(userID)
       const favorites = await db.favorites.findAll({
         where: {
