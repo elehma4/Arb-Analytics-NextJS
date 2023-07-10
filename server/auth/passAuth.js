@@ -19,9 +19,9 @@ let options = {
 passport.use(
     new GoogleStrategy(
       {
-        clientID: '127198503322-4aser1e2405bnkifalvksj0e94it72h7.apps.googleusercontent.com',
-        clientSecret: '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',
-        callbackURL: 'http://localhost:3001/auth/google/callback', // Update with your callback URL
+        REACT_APP_CLIENT_ID,
+        REACT_APP_CLIENT_SECRET,
+        REACT_APP_CALLBACK_URL, // Update with your callback URL
       },
       async (accessToken, refreshToken, profile, done) => {
         // Check if the user already exists in your database
