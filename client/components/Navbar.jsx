@@ -8,6 +8,7 @@ import {BsSearch} from 'react-icons/bs'
 import {FiSettings} from 'react-icons/fi'
 import {MdOutlineClose} from 'react-icons/md'
 import Favorites from './Favorites'
+import SignoutButton from './SignoutButton'
 
 const Navbar = ({ onSmallScreenChange }) => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
@@ -63,7 +64,9 @@ const Navbar = ({ onSmallScreenChange }) => {
           <div className="py-2 my-3">
               <div className="flex justify-center font-medium mb-1">Your Watchlist</div>
               <Favorites />
+              <SignoutButton />
           </div>
+
         )}
         {isSmallScreen && (
           <div className='flex'>

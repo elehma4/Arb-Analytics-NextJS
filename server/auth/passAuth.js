@@ -3,15 +3,51 @@ const LocalStrategy = require('passport-local').Strategy;
 const JwtStrategy = require('passport-jwt').Strategy;
 const bcrypt = require('bcryptjs');
 const db = require('../models')
-
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 
 const secrets = require('../secrets')
+
+
+
 
 let options = {
     usernameField: 'email'
 }
 
+//   =================Google stuff above =================To be dleted if it does'nt work 
+passport.use(
+    new GoogleStrategy(
+      {
+        clientID: '127198503322-4aser1e2405bnkifalvksj0e94it72h7.apps.googleusercontent.com',
+        clientSecret: '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',
+        callbackURL: 'http://localhost:3001/auth/google/callback', // Update with your callback URL
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        // Check if the user already exists in your database
+        const user = await db.users.findOne({ where: { googleId: profile.id } });
+  
+        if (user) {
+          // User exists, proceed with authentication
+          return done(null, user);
+        } else {
+          // User doesn't exist, create a new user in your database
+          const newUser = await db.users.create({
+            googleId: profile.id,
+            email: profile.emails[0].value,
+            // Add any other relevant user data from the profile object
+          });
+  
+          return done(null, newUser);
+        }
+      }
+    )
+  )
+
+
+
+
+//   =================Google stuff above =================
 let localStrategy = new LocalStrategy(options, async (email, password, done) => {
     try{
         let record = await db.users.findOne({ where: {email} })
@@ -64,3 +100,15 @@ let jwtLogin = new JwtStrategy(jwtOptions, async (payload, done)=>{
 
 passport.use(localStrategy)
 passport.use(jwtLogin)
+// passport.use(googleStrategy);
+
+
+
+
+
+
+
+
+
+
+
