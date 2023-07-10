@@ -93,7 +93,8 @@ const Main = ( {isSmallScreen} ) => {
     } else if (dataType === 'FEES') {
       marketData = data.totalDataChart.map(datapoint => ({
         time: datapoint[0],  // Already in Unix timestamp format
-        value: datapoint[1]
+        value: datapoint[1],
+        color: 'green'
       }));
     }
 
@@ -135,21 +136,33 @@ const Main = ( {isSmallScreen} ) => {
 
     chartRef.current = chart;
 
-    const lineData = marketData.map(datapoint => ({
-      time: datapoint.time
-    }))
+    if(dataType === 'FEES'){
+      const histogramSeries = chart.addHistogramSeries({
+        color: 'rgba(56, 33, 110, 1)',
+        priceFormat: {
+          type: 'volume',
+        },
+        priceScaleId: '',
+        scaleMargins: {
+          top: 0.8,
+          bottom: 0,
+        },
+      })
 
-    const areaSeries = chart.addAreaSeries({
-      lastValueVisible: false,
-      crosshairMarkerVisible: false,
-      lineColor: 'rgba(56, 33, 110, 1)',
-      topColor: 'rgba(56, 33, 110, 0.6)',
-      bottomColor: 'rgba(56, 33, 110, 0.1)', 
-    });
-    areaSeries.setData(marketData);
+      histogramSeries.setData(marketData)
+    } else {
+      const areaSeries = chart.addAreaSeries({
+        lastValueVisible: false,
+        crosshairMarkerVisible: false,
+        lineColor: 'rgba(56, 33, 110, 1)',
+        topColor: 'rgba(56, 33, 110, 0.6)',
+        bottomColor: 'rgba(56, 33, 110, 0.1)', 
+      });
+      areaSeries.setData(marketData);
 
-    const mainSeries = chart.addAreaSeries();
-    mainSeries.setData(marketData);
+      const mainSeries = chart.addAreaSeries();
+      mainSeries.setData(marketData);
+    }
 
     const resizeObserver = new ResizeObserver(entries => {
       window.requestAnimationFrame(() => {

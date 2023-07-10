@@ -4,3 +4,4 @@
 
 # sequelize model:generate --name favorites --attributes userID:integer,protocolID:integer
 
+sequelize model:generate
