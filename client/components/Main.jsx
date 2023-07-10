@@ -13,6 +13,8 @@ import {LuArrowUpDown, LuArrowDown, LuArrowUp} from 'react-icons/lu'
 
 const Main = ( {isSmallScreen} ) => {
 
+  const startTime = performance.now(); // log start time
+
   const [marketData, setMarketData] = useState(null);
   const [dataType, setDataType] = useState('TVL')
 
@@ -52,8 +54,18 @@ const Main = ( {isSmallScreen} ) => {
   }
 
   useEffect(() => {
-    dispatch(getProtocols())
-
+    const fetchStartTime = performance.now()
+    dispatch(getProtocols()).then(() => {
+      const fetchEndTime = performance.now();
+      const fetchTime = fetchEndTime - fetchStartTime;
+      console.log(`Fetching protocols took ${fetchTime}ms`);
+      axios.post('http://localhost:3001/performance_logs', {
+        event_category: 'page_load',
+        event_type: 'load_time_protocols',
+        event_value: fetchTime,
+        page_url: window.location.href,
+      });
+    });
   }, [dispatch]);
 
   const protocols = useSelector((state) => state.main.protocols);
@@ -94,7 +106,7 @@ const Main = ( {isSmallScreen} ) => {
       marketData = data.totalDataChart.map(datapoint => ({
         time: datapoint[0],  // Already in Unix timestamp format
         value: datapoint[1],
-        color: 'green'
+        color: 'blue'
       }));
     }
 
@@ -250,6 +262,19 @@ const Main = ( {isSmallScreen} ) => {
     setDisplayedProtocols(sortedProtocols);
   }, [protocols, sortTerm, sortDirection]);
 
+  useEffect(() => {
+    const endTime = performance.now(); // log end time
+    const loadTime = endTime - startTime
+    console.log('Component loaded in: ', loadTime, 'ms');
+    
+    axios.post('http://localhost:3001/performance_logs', {
+      event_category: 'page_load',
+      event_type: 'load_time',
+      event_value: loadTime,
+      page_url: window.location.href,
+    });
+  }, [])
+
   return (
     <div id='home' className='h-screen'>
 
@@ -346,7 +371,7 @@ const Main = ( {isSmallScreen} ) => {
                   <Star item={protocol}/>
                   <Link 
                   href={`/protocols/${protocol.name}`}
-                  className='px-2 max-sm:text-sm text-center hover:text-blue-600 hover:font-bold flex flex-wrap justify-center items-center'
+                  className='px-2 max-sm:text-sm text-center hover:text-blue-600 hover:font-bold flex flex-wrap justify-center items-center max-lg:text-left'
                   >
                     {
                       window.innerWidth > 768 ?  <img className='w-7 mx-2 rounded-full' src={protocol.logo} alt="protocol" />
