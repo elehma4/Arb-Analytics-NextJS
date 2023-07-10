@@ -88,7 +88,7 @@ const Main = ( {isSmallScreen} ) => {
 
     const response = await axios.get(url);
     const data = response.data;
-    console.log(data);
+    // console.log(data);
     let marketData = [];
 
     if(dataType === 'PRICE'){
@@ -110,7 +110,7 @@ const Main = ( {isSmallScreen} ) => {
       }));
     }
 
-    console.log(marketData);
+    // console.log(marketData);
     return marketData;
   }
   fetchMarketData('TVL')

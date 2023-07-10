@@ -5,8 +5,11 @@ import { useSelector, useDispatch} from 'react-redux';
 import Home from '../../page'
 import Navbar from '@/components/Navbar';
 import Chart from '@/components/Chart'
+import axios from 'axios';
 
 const DetailsPage = ({params}) => {
+
+  const startTime = performance.now(); // log start time
 
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [dataType, setDataType] = useState('TVL')
@@ -72,6 +75,19 @@ const DetailsPage = ({params}) => {
       }
     }
   }
+
+  useEffect(() => {
+    const endTime = performance.now(); // log end time
+    const loadTime = endTime - startTime
+    console.log('Component loaded in: ', loadTime, 'ms');
+    
+    axios.post('http://localhost:3001/performance_logs', {
+      event_category: 'page_load',
+      event_type: 'load_time_specific_protocol',
+      event_value: loadTime,
+      page_url: window.location.href,
+    });
+  }, [])
   
   return (
     <div id='protocols' className='h-screen'>
