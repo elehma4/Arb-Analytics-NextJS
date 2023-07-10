@@ -10,6 +10,7 @@ import Star from './Star'
 import axios from 'axios'
 import SortIcon from './SortIcon'
 import {LuArrowUpDown, LuArrowDown, LuArrowUp} from 'react-icons/lu'
+import { updateUserID } from '../slices/mainSlice';
 
 const Main = ( {isSmallScreen} ) => {
 
@@ -20,11 +21,19 @@ const Main = ( {isSmallScreen} ) => {
 
   const dispatch = useDispatch();
   const userID = useSelector(state=>state.main.userID)
+  const authID = useSelector(state=>state.auth.userId)
   const favorites = useSelector(state=>state.main.favorites)
 
   useEffect(() => {
+    
+    dispatch(updateUserID())
+    
+  }, [authID])
+  
+
+  useEffect(() => {
     dispatch(getUserFavorites(userID));
-  }, [dispatch, userID]);
+  }, [userID]);
 
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
   const [displayedProtocols, setDisplayedProtocols] = useState([])
@@ -88,7 +97,7 @@ const Main = ( {isSmallScreen} ) => {
 
     const response = await axios.get(url);
     const data = response.data;
-    // console.log(data);
+
     let marketData = [];
 
     if(dataType === 'PRICE'){
@@ -110,7 +119,6 @@ const Main = ( {isSmallScreen} ) => {
       }));
     }
 
-    // console.log(marketData);
     return marketData;
   }
   fetchMarketData('TVL')

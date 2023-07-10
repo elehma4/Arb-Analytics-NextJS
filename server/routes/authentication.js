@@ -69,8 +69,23 @@ router.post('/login', requireLogin, async (req, res) => {
 });
 
 router.get('/protected', requireJwt, (req, res) => {
+    console.log('request', req.user.id)
     res.json({isValid: true, id: req.user.id})
 })
 
+// ================================google route end point 
+
+router.get('/auth/google/signup', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+router.get('/auth/google/signin', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
+  // Redirect or respond with the necessary data after successful authentication
+  res.redirect('/'); // Redirect to the home page after successful authentication
+});
+
+// Example protected route that requires Google authentication
+router.get('/protected/google', passport.authenticate('google', { session: false }), (req, res) => {
+  // Handle the protected route logic
+  res.json({ message: 'Protected route with Google authentication' });
+});
 
 module.exports = router;
