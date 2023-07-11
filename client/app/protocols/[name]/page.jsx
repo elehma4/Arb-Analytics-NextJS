@@ -13,6 +13,7 @@ const DetailsPage = ({params}) => {
 
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [dataType, setDataType] = useState('TVL')
+  const [type2, setType2] = useState('Volume')
 
   useEffect(() => {
     setIsSmallScreen(window.innerWidth < 768);
@@ -23,21 +24,22 @@ const DetailsPage = ({params}) => {
   };
 
   const protocols = useSelector(state=>state.main.protocols)
-
+  const priceData = useSelector(state=>state.main.Price)
+  let recentPrice;
+  if(priceData.length){
+    recentPrice = priceData[priceData.length-1].value
+  }
+  console.log(recentPrice)
   const [protocol, setProtocol] = useState(null);
 
   if(params){
     useEffect(() => {
       if (params && params.name) {
-        console.log(params.name);
         const originalString = params.name;
         const modifiedString = originalString.replace(/%20/g, ' ');
-        console.log(modifiedString);
-        console.log(protocols)
         const foundProtocol = protocols.find((protocol) => {
           return protocol.name === modifiedString});
         setProtocol(foundProtocol);
-        console.log(protocol)
       }
     }, []);
   }
@@ -53,8 +55,6 @@ const DetailsPage = ({params}) => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  console.log(protocol)
 
   const displayPrice = (num) => {
     const newNum = num.toFixed(2)
@@ -112,7 +112,7 @@ const DetailsPage = ({params}) => {
                 </div>
               </div>
               <div className='flex items-center justify-start'>
-                <button className='bg-[#3267D6] hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200' onClick={()=>setDataType('PRICE')}>${protocol.symbol} Chart</button>
+                <button className='bg-[#3267D6] hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200' onClick={()=>setDataType('PRICE')}>Price Chart</button>
                 <div>
                   <p className='m-1 text-left text-gray-400'>${protocol.symbol} Price</p>
                   <p className='text-white sm:mb-2 ml-1'>$1.17</p>
@@ -133,8 +133,9 @@ const DetailsPage = ({params}) => {
           {showVolume &&
             <div className='lg:col-start-4 lg:col-span-3 items-center justify-center row-start-2 row-span-4 m-1'>
               <div className='border flex justify-center items-center text-gray-400 h-full'>
-                Bar Chart
+                <Chart name={protocol.name} type={type2}/>
               </div>
+              
             </div> 
           }  
             
@@ -142,15 +143,26 @@ const DetailsPage = ({params}) => {
 
           {
             !showVolume &&
-            <div className='w-full h-1/2 grid grid-rows-5 gap-2 bg-gray-900 rounded-md my-4'>
-              <div className='text-gray-400 flex justify-center items-center'>
-                ${protocol.symbol} Volume
-              </div>
-              <div className='flex items-center justify-center row-start-2 row-span-4 m-1'>
-                <div className='border flex justify-center items-center text-gray-400 h-full w-full'>
-                  Bar Chart
+            <div className='w-full h-1/2 grid lg:grid-cols-6 lg:grid-rows-5 gap-2 bg-gray-900 rounded-md md:grid-cols-4 md:grid-rows-4 sm:grid-cols-4 sm:grid-rows-4 max-sm:grid-cols-4 max-sm:grid-rows-4'>
+              <div className='lg:col-span-3 md:col-span-4 sm:col-span-4 max-sm:col-span-4 flex'>
+                <div className='flex items-center justify-start'>
+                  <button className='bg-[#3267D6] hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200' onClick={()=>setType2('Volume')}>Volume Chart</button>
+                  <div>
+                    <p className='m-1 text-left text-gray-400'>{protocol.symbol} Volume </p>
+                    <p className='sm:mb-2 text-white m-1'>{displayPrice(protocol.TVL)}</p>
+                  </div>
                 </div>
-            </div> 
+                <div className='flex items-center justify-start'>
+                  <button className='bg-[#3267D6] hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200' onClick={()=>setDataType('PRICE')}>${protocol.symbol} Chart</button>
+                  <div>
+                    <p className='m-1 text-left text-gray-400'>${protocol.symbol} MCAP</p>
+                    <p className='text-white sm:mb-2 ml-1'>$1.17</p>
+                  </div>
+                </div>
+              </div>
+              <div className='m-1 lg:col-span-3 row-span-full border max-lg:h-auto md:row-start-2 md:col-span-4 sm:row-start-2 sm:col-span-4 max-sm:row-start-2 max-sm:col-span-4 p-1'>
+                <Chart name={protocol.name} type={type2}/>
+              </div>
             </div>
           }
 

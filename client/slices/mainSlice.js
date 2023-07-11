@@ -5,7 +5,11 @@ const initialState = {
   protocols: [],
   isLoading: false,
   userID: '',
-  favorites: []
+  favorites: [],
+  TVL: [],
+  Price: [],
+  Volume: [],
+  MCAP: []
 };
 
 export const getProtocols = createAsyncThunk('main/getProtocols', async (params, thunkAPI) => {
@@ -22,7 +26,6 @@ export const getProtocols = createAsyncThunk('main/getProtocols', async (params,
 export const getUserFavorites = createAsyncThunk('main/getUserFavorites', async (_, thunkAPI) => {
   try {
     const userID = thunkAPI.getState().main.userID;
-    console.log('here', userID)
     const response = await axios.get('http://localhost:3001/favorites', {
       headers: {
         'X-User-ID': userID
@@ -72,6 +75,50 @@ export const updateUserID = createAsyncThunk('main/updateUserID', async (_, { ge
   }
 });
 
+export const setTVL = createAsyncThunk('main/setTVL', async (updatedName, thunkAPI) => {
+  try {
+    const response = await axios.get(`https://api.llama.fi/protocol/${updatedName}`)
+    const tvlData = response.data
+    let marketData = []
+    marketData = tvlData.tvl.map(datapoint => ({
+      time: datapoint.date,
+      value: datapoint.totalLiquidityUSD
+    }));
+    return marketData
+  } catch (error) {
+    throw new Error("Couldn't fetch data");
+  }
+});
+export const setPRICE = createAsyncThunk('main/setPRICE', async (updatedName, thunkAPI) => {
+  try {
+    const response = await axios.get(`https://api.coingecko.com/api/v3/coins/${updatedName}/market_chart?vs_currency=usd&days=max&interval=daily`)
+    const coinData = response.data
+    let priceData = []
+    let volumeData = []
+    let mcapData = []
+    priceData = coinData.prices.map((price) => ({
+      time: price[0] / 1000, // convert ms to secs
+      value: price[1],
+    }));
+    volumeData = coinData.total_volumes.map((price) => ({
+      time: price[0] / 1000, // convert ms to secs
+      value: price[1],
+    }));
+    mcapData = coinData.market_caps.map((price) => ({
+      time: price[0] / 1000, // convert ms to secs
+      value: price[1],
+    }));
+    let marketData = {
+      priceData,
+      volumeData,
+      mcapData
+    }
+    return marketData
+  } catch (error) {
+    throw new Error("Couldn't fetch data");
+  }
+});
+
 
 const mainSlice = createSlice({
   name: 'main',
@@ -80,6 +127,13 @@ const mainSlice = createSlice({
     setUserID: (state, action) => {
       state.userID = action.payload;
     },
+    // setTVL: (state, action) => {
+    //   console.log('here')
+    //   state.TVL = action.payload
+    // },
+    // setPrice: (state, action) => {
+    //   state.Price = action.payload
+    // },
   },
   extraReducers: (builder) => {
     builder
@@ -112,9 +166,17 @@ const mainSlice = createSlice({
 
       // Add the custom reducer to update state.main.userID
       builder.addCase(updateUserID.fulfilled, (state, action) => {
-        console.log('updated user')
         state.userID = action.payload;
         state.favorites = []
+      });
+
+      builder.addCase(setTVL.fulfilled, (state, action) => {
+        state.TVL = action.payload
+      });
+      builder.addCase(setPRICE.fulfilled, (state, action) => {
+        state.Price = action.payload.priceData
+        state.Volume = action.payload.volumeData
+        state.MCAP = action.payload.mcapData
       });
   },
 });
