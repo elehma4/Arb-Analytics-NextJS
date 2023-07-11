@@ -16,33 +16,34 @@ let options = {
 }
 
 //   =================Google stuff above =================To be dleted if it does'nt work 
-passport.use(
-    new GoogleStrategy(
-      {
-        REACT_APP_CLIENT_ID,
-        REACT_APP_CLIENT_SECRET,
-        REACT_APP_CALLBACK_URL, // Update with your callback URL
-      },
-      async (accessToken, refreshToken, profile, done) => {
-        // Check if the user already exists in your database
-        const user = await db.users.findOne({ where: { googleId: profile.id } });
+
+// passport.use(
+//     new GoogleStrategy(
+//       {
+//         REACT_APP_CLIENT_ID,
+//         REACT_APP_CLIENT_SECRET,
+//         REACT_APP_CALLBACK_URL, 
+//       },
+//       async (accessToken, refreshToken, profile, done) => {
+//         // Check if the user already exists in your database
+//         const user = await db.users.findOne({ where: { googleId: profile.id } });
   
-        if (user) {
-          // User exists, proceed with authentication
-          return done(null, user);
-        } else {
-          // User doesn't exist, create a new user in your database
-          const newUser = await db.users.create({
-            googleId: profile.id,
-            email: profile.emails[0].value,
-            // Add any other relevant user data from the profile object
-          });
+//         if (user) {
+//           // User exists, proceed with authentication
+//           return done(null, user);
+//         } else {
+//           // User doesn't exist, create a new user in your database
+//           const newUser = await db.users.create({
+//             googleId: profile.id,
+//             email: profile.emails[0].value,
+//             // Add any other relevant user data from the profile object
+//           });
   
-          return done(null, newUser);
-        }
-      }
-    )
-  )
+//           return done(null, newUser);
+//         }
+//       }
+//     )
+//   )
 
 
 
