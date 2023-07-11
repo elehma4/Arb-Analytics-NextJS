@@ -1,13 +1,10 @@
-import React , {useState, useEffect} from 'react'
+import React , {useState, useEffect, useRef} from 'react'
 import { createChart } from 'lightweight-charts'
 import axios from 'axios'
 
 
 
 const Chart = ({name, type}) => {
-
-    console.log(type)
-    console.log(name)
 
     const updateName = (name) => {
         const lower = name.toLowerCase();
@@ -17,18 +14,14 @@ const Chart = ({name, type}) => {
       
 
     const [updatedName, setUpdatedName] = useState(updateName(name))
-    const [dataType, setDataType] = useState('TVL')
     const [marketData, setMarketData] = useState(null);
-
-    console.log(updatedName)
-
 
     // 'https://api.coingecko.com/api/v3/coins/arbitrum/market_chart?vs_currency=usd&days=max&interval=daily'
 
 
-    async function fetchMarketData(dataType){
+    async function fetchMarketData(type){
         let url;
-        switch(dataType){
+        switch(type){
           case 'TVL':
             url = `https://api.llama.fi/protocol/${updatedName}`;
             break;
@@ -45,19 +38,20 @@ const Chart = ({name, type}) => {
           default:
             throw new Error('Unknown data type')
         }
+        console.log(url)
     
         const response = await axios.get(url);
         const data = response.data;
         console.log(data);
         let marketData = [];
     
-        if(dataType === 'PRICE'){
+        if(type === 'PRICE'){
           const {prices} = data;
           marketData = prices.map(price => ({
             time: price[0] / 1000, // convert ms to secs
             value: price[1]
           }));
-        } else if (dataType === 'TVL') {
+        } else if (type === 'TVL') {
           marketData = data.tvl.map(datapoint => ({
             time: datapoint.date,
             value: datapoint.totalLiquidityUSD
@@ -70,12 +64,88 @@ const Chart = ({name, type}) => {
       fetchMarketData(type)
     
       useEffect(() => {
-        fetchMarketData(dataType).then(data => setMarketData(data))
-      }, [dataType]);
+        fetchMarketData(type).then(data => setMarketData(data))
+      }, [type]);
+
+      const chartContainerRef = useRef();
+      const chartRef = useRef(null);
+
+      useEffect(() => {
+        console.log(marketData)
+        if(marketData === null){
+          return;
+        }
+
+        console.log(marketData)
+    
+        console.log(`rendering chart`);
+    
+        if(chartRef.current){
+          chartRef.current.remove();
+          chartRef.current = null;
+        }
+    
+        // Create chart:
+        const chart = createChart(chartContainerRef.current, {
+          layout: {
+            background: { color: '#000033' },
+            textColor: '#DDD'
+          },
+          grid: {
+            vertLines: { color: '#444' },
+            horzLines: { color: '#444' }
+          }
+        })
+    
+        chartRef.current = chart;
+    
+        if(type === 'FEES'){
+          const histogramSeries = chart.addHistogramSeries({
+            color: 'rgba(56, 33, 110, 1)',
+            priceFormat: {
+              type: 'volume',
+            },
+            priceScaleId: '',
+            scaleMargins: {
+              top: 0.8,
+              bottom: 0,
+            },
+          })
+    
+          histogramSeries.setData(marketData)
+        } else {
+          const areaSeries = chart.addAreaSeries({
+            lastValueVisible: false,
+            crosshairMarkerVisible: false,
+            lineColor: 'rgba(56, 33, 110, 1)',
+            topColor: 'rgba(56, 33, 110, 0.6)',
+            bottomColor: 'rgba(56, 33, 110, 0.1)', 
+          });
+          areaSeries.setData(marketData);
+    
+          const mainSeries = chart.addAreaSeries();
+          mainSeries.setData(marketData);
+        }
+    
+        const resizeObserver = new ResizeObserver(entries => {
+          window.requestAnimationFrame(() => {
+              for (let entry of entries) {
+                  const { width, height } = entry.contentRect;
+                  chart.resize(width, height);
+              }
+          });
+        });
+    
+        resizeObserver.observe(chartContainerRef.current);
+    
+        return () => {
+          if (chartContainerRef.current){
+            resizeObserver.unobserve(chartContainerRef.current);
+          }
+        };
+      }, [marketData])
   return (
-    <div>
-      
-    </div>
+    <div ref={chartContainerRef} className="w-full h-full" />
   )
 }
 
