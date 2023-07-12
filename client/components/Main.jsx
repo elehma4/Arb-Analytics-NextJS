@@ -375,11 +375,11 @@ const Main = ( {isSmallScreen} ) => {
           { 
             displayedProtocols.map((protocol, index) => (
                 <React.Fragment key={index}>
-                <div className='p-2 px-4 flex justify-start items-center border border-gray-400'>
+                <div className='p-2 sm:px-4 flex justify-start items-center border border-gray-400'>
                   <Star item={protocol}/>
                   <Link 
                   href={`/protocols/${protocol.name}`}
-                  className='px-2 max-sm:text-sm text-center hover:text-blue-600 hover:font-bold flex flex-wrap justify-center items-center max-lg:text-left'
+                  className='sm:px-2 max-sm:text-sm text-center hover:text-blue-600 hover:font-bold flex flex-wrap justify-center items-center max-lg:text-left'
                   >
                     {
                       window.innerWidth > 768 ?  <img className='w-7 mx-2 rounded-full' src={protocol.logo} alt="protocol" />
