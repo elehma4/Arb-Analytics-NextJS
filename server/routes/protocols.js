@@ -13,6 +13,7 @@ router.get('/protocols', async (req, res) => {
     try {
       const protocols = await db.protocols.findAll();
       res.json(protocols);
+      console.log(protocols)
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: 'Error in fetching data' });
