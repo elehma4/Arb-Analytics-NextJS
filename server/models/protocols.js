@@ -21,7 +21,8 @@ module.exports = (sequelize, DataTypes) => {
     url: DataTypes.STRING,
     logo: DataTypes.STRING,
     TVL: DataTypes.DOUBLE,
-    MCAP: DataTypes.DOUBLE
+    MCAP: DataTypes.DOUBLE,
+    geckoID: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'protocols',
