@@ -25,11 +25,37 @@ const DetailsPage = ({params}) => {
 
   const protocols = useSelector(state=>state.main.protocols)
   const priceData = useSelector(state=>state.main.Price)
+  const volumeData = useSelector(state=>state.main.Volume)
+  const mcapData = useSelector(state=>state.main.MCAP)
   let recentPrice;
-  if(priceData.length){
-    recentPrice = priceData[priceData.length-1].value
+  let recentVolume;
+  let recentMCAP;
+
+  const displayPrice = (num) => {
+    const newNum = num.toFixed(2)
+    const dollar = `$${String(newNum)}`;
+    const withCommas = addCommas(dollar)
+    return withCommas;
   }
-  console.log(recentPrice)
+
+  const addCommas = (string) => {
+    for(let i = string.length; i > 1; i--){
+      if(string[i] === '.'){
+        for (let j = string.length-3; j > 1; j-=3){
+          if(j !== string.length-3){
+            string = string.slice(0,j) + "," + string.slice(j)
+          }
+        }
+        return string
+      }
+    }
+  }
+
+  if(priceData.length){
+    recentPrice = displayPrice(priceData[priceData.length-1].value)
+    recentVolume = displayPrice(volumeData[volumeData.length-1].value)
+    recentMCAP = displayPrice(mcapData[mcapData.length-1].value)
+  }
   const [protocol, setProtocol] = useState(null);
 
   if(params){
@@ -55,26 +81,6 @@ const DetailsPage = ({params}) => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  const displayPrice = (num) => {
-    const newNum = num.toFixed(2)
-    const dollar = `$${String(newNum)}`;
-    const withCommas = addCommas(dollar)
-    return withCommas;
-  }
-
-  const addCommas = (string) => {
-    for(let i = string.length; i > 1; i--){
-      if(string[i] === '.'){
-        for (let j = string.length-3; j > 1; j-=3){
-          if(j !== string.length-3){
-            string = string.slice(0,j) + "," + string.slice(j)
-          }
-        }
-        return string
-      }
-    }
-  }
 
   useEffect(() => {
     const endTime = performance.now(); // log end time
@@ -115,7 +121,7 @@ const DetailsPage = ({params}) => {
                 <button className='bg-[#3267D6] hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200' onClick={()=>setDataType('PRICE')}>Price Chart</button>
                 <div>
                   <p className='m-1 text-left text-gray-400'>${protocol.symbol} Price</p>
-                  <p className='text-white sm:mb-2 ml-1'>$1.17</p>
+                  <p className='text-white sm:mb-2 ml-1'>{recentPrice}</p>
                 </div>
               </div>
             </div>
@@ -149,14 +155,14 @@ const DetailsPage = ({params}) => {
                   <button className='bg-[#3267D6] hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200' onClick={()=>setType2('Volume')}>Volume Chart</button>
                   <div>
                     <p className='m-1 text-left text-gray-400'>{protocol.symbol} Volume </p>
-                    <p className='sm:mb-2 text-white m-1'>{displayPrice(protocol.TVL)}</p>
+                    <p className='sm:mb-2 text-white m-1'>{recentVolume}</p>
                   </div>
                 </div>
                 <div className='flex items-center justify-start'>
-                  <button className='bg-[#3267D6] hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200' onClick={()=>setDataType('PRICE')}>${protocol.symbol} Chart</button>
+                  <button className='bg-[#3267D6] hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200' onClick={()=>setType2('MCAP')}>MCAP Chart</button>
                   <div>
-                    <p className='m-1 text-left text-gray-400'>${protocol.symbol} MCAP</p>
-                    <p className='text-white sm:mb-2 ml-1'>$1.17</p>
+                    <p className='m-1 text-left text-gray-400'>{protocol.symbol} MCAP</p>
+                    <p className='text-white sm:mb-2 ml-1'>{recentMCAP}</p>
                   </div>
                 </div>
               </div>

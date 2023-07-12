@@ -17,8 +17,16 @@ const Chart = ({ name, type }) => {
   const priceData = useSelector(state=>state.main.Price)
   const volumeData = useSelector(state=>state.main.Volume)
   const mcapData = useSelector(state=>state.main.MCAP)
-
+  const protocols = useSelector(state=>state.main.protocols)
   const dispatch = useDispatch();
+
+  // Find the protocol with a matching name
+const foundProtocol = protocols.find((protocol) => protocol.name === name);
+
+// Retrieve the value of geckoID from the found protocol, or a default value if not found
+const geckoID = foundProtocol ? foundProtocol.geckoID : null;
+
+console.log(geckoID)
 
   useEffect(() => {
     dispatch(setTVL(updatedName));
@@ -34,6 +42,9 @@ const Chart = ({ name, type }) => {
     }
     if (type === 'Volume') {
       setMarketData(volumeData);
+    }
+    if (type === 'MCAP'){
+      setMarketData(mcapData)
     }
   }, [type, tvlData]);
 
