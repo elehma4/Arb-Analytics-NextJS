@@ -103,6 +103,7 @@ export const setPRICE = createAsyncThunk('main/setPRICE', async (updatedName, th
     volumeData = coinData.total_volumes.map((price) => ({
       time: price[0] / 1000, // convert ms to secs
       value: price[1],
+      color: 'blue'
     }));
     mcapData = coinData.market_caps.map((price) => ({
       time: price[0] / 1000, // convert ms to secs

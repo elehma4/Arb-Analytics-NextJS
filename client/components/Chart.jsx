@@ -14,23 +14,24 @@ const Chart = ({ name, type }) => {
   const [marketData, setMarketData] = useState(null);
 
   const tvlData = useSelector((state) => state.main.TVL);
-  const priceData = useSelector(state=>state.main.Price)
-  const volumeData = useSelector(state=>state.main.Volume)
-  const mcapData = useSelector(state=>state.main.MCAP)
-  const protocols = useSelector(state=>state.main.protocols)
+  const priceData = useSelector((state) => state.main.Price);
+  const volumeData = useSelector((state) => state.main.Volume);
+  const mcapData = useSelector((state) => state.main.MCAP);
+  const protocols = useSelector((state) => state.main.protocols);
   const dispatch = useDispatch();
 
-  // Find the protocol with a matching name
-const foundProtocol = protocols.find((protocol) => protocol.name === name);
-
-// Retrieve the value of geckoID from the found protocol, or a default value if not found
-const geckoID = foundProtocol ? foundProtocol.geckoID : null;
-
-console.log(geckoID)
+  const foundProtocol = protocols.find((protocol) => protocol.name === name);
+  const geckoID = foundProtocol ? foundProtocol.geckoID : null;
 
   useEffect(() => {
     dispatch(setTVL(updatedName));
-    dispatch(setPRICE(updatedName))
+    if(geckoID){
+      dispatch(setPRICE(geckoID))
+    }
+    else{
+      dispatch(setPRICE(updatedName));
+
+    }
   }, [dispatch, updatedName]);
 
   useEffect(() => {
@@ -43,10 +44,10 @@ console.log(geckoID)
     if (type === 'Volume') {
       setMarketData(volumeData);
     }
-    if (type === 'MCAP'){
-      setMarketData(mcapData)
+    if (type === 'MCAP') {
+      setMarketData(mcapData);
     }
-  }, [type, tvlData]);
+  }, [type, tvlData, priceData, volumeData, mcapData]);
 
   const chartContainerRef = useRef();
   const chartRef = useRef(null);
@@ -74,7 +75,7 @@ console.log(geckoID)
 
     chartRef.current = chart;
 
-    if (type === 'FEES') {
+    if (type === 'Volume') {
       const histogramSeries = chart.addHistogramSeries({
         color: 'rgba(56, 33, 110, 1)',
         priceFormat: {
@@ -87,7 +88,8 @@ console.log(geckoID)
         },
       });
 
-      histogramSeries.setData(marketData);
+      const data = marketData.map((datapoint) => ({ ...datapoint })); // Create new objects for each datapoint
+      histogramSeries.setData(data);
     } else {
       const areaSeries = chart.addAreaSeries({
         lastValueVisible: false,
@@ -96,10 +98,12 @@ console.log(geckoID)
         topColor: 'rgba(56, 33, 110, 0.6)',
         bottomColor: 'rgba(56, 33, 110, 0.1)',
       });
-      areaSeries.setData(JSON.parse(JSON.stringify(marketData))); // Deep copy of marketData
+
+      const data = marketData.map((datapoint) => ({ ...datapoint })); // Create new objects for each datapoint
+      areaSeries.setData(data);
 
       const mainSeries = chart.addAreaSeries();
-      mainSeries.setData(JSON.parse(JSON.stringify(marketData))); // Deep copy of marketData
+      mainSeries.setData(data);
     }
 
     const resizeObserver = new ResizeObserver((entries) => {
