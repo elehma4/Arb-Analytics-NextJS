@@ -18,6 +18,9 @@ const Main = ( {isSmallScreen} ) => {
 
   const [marketData, setMarketData] = useState(null);
   const [dataType, setDataType] = useState('TVL')
+  const [arbTVL, setArbTVL] = useState(null)
+  const [arbFees, setArbFees] = useState(null)
+  const [arbPrice, setArbPrice] = useState(null)
 
   const dispatch = useDispatch();
   const userID = useSelector(state=>state.main.userID)
@@ -106,17 +109,21 @@ const Main = ( {isSmallScreen} ) => {
         time: price[0] / 1000, // convert ms to secs
         value: price[1]
       }));
+      setArbPrice(prices[prices.length - 1][1])
     } else if (dataType === 'TVL') {
       marketData = data.map(datapoint => ({
         time: datapoint.date,
         value: datapoint.tvl
       }));
+      setArbTVL(data[data.length - 1].tvl)
     } else if (dataType === 'FEES') {
+      console.log(data);
       marketData = data.totalDataChart.map(datapoint => ({
         time: datapoint[0],  // Already in Unix timestamp format
         value: datapoint[1],
         color: 'blue'
       }));
+      setArbFees(data.total24h)
     }
 
     return marketData;
@@ -126,6 +133,11 @@ const Main = ( {isSmallScreen} ) => {
   useEffect(() => {
     fetchMarketData(dataType).then(data => setMarketData(data))
   }, [dataType]);
+
+  useEffect(() => {
+    fetchMarketData('FEES');
+    fetchMarketData('PRICE')
+  })
 
   const chartContainerRef = useRef();
   const chartRef = useRef(null);
@@ -283,6 +295,50 @@ const Main = ( {isSmallScreen} ) => {
     });
   }, [])
 
+  const displayPrice = (num) => {
+    const dollar = `$${String(num)}`;
+    const withCommas = addCommas(dollar)
+    return withCommas;
+  }
+
+  const addCommas = (string) => {
+    for(let i = string.length - 1; i >= 0; i--){
+      for (let j = string.length-3; j > 1; j-=3){
+        string = string.slice(0,j) + "," + string.slice(j)
+      }
+      return string
+    }
+  }
+
+  const displayPrice2 = (num) => {
+    const dollar = Number(num).toFixed(2)
+    const dollaDollaBill = addCommas2(dollar)
+    return dollaDollaBill
+  }
+
+  const addCommas2 = (string) => {
+    for(let i = string.length; i > 0; i--){
+      if(string[i] === '.'){
+        for (let j = string.length-3; j > 0; j-=3){
+          if(j !== string.length-3){
+            string = string.slice(0,j) + "," + string.slice(j)
+          }
+        }
+        return string
+      }
+    }
+  }
+
+  const formatBillion = (str) => {
+    let num = parseFloat(str.replace(/[\$,]/g, ''));
+    return '$' + (num / 1e9).toFixed(3) + 'b';
+  }
+
+  const noDecimals = (str) => {
+    let num = parseFloat(str.replace(/[\$,]/g, ''));
+    return '$' + Math.floor(num).toLocaleString();
+  }
+
   return (
     <div id='home' className='h-screen'>
 
@@ -294,16 +350,16 @@ const Main = ( {isSmallScreen} ) => {
           <div className='w-full h-3/5 sm:h-1/2 lg:h-3/5 bg-gray-900 rounded-3xl mt-6 p-6 text-gray-400 sm:grid grid-cols-4 grid-rows-4 grid-flow-col gap-2 '>
               <div className='font-bold max-sm:grid grid-cols-3 row-span-4'>
                 <div className='m-2'>
-                <p className='text-sm md:text-xl m-1 text-left'>Total Value Locked </p>
-                <p className='max-sm:text-base md:text-2xl text-lg sm:mb-2 text-white m-1'>$2.17b</p>
+                <p className='text-sm md:text-xl lg:text-2xl m-1 text-left'>Total Value Locked </p>
+                <p className='max-sm:text-sm md:text-2xl text-lg sm:mb-2 text-white m-1'>{formatBillion(displayPrice2(arbTVL))}</p>
                 </div>
                 <div className='m-2'>
-                <p className='text-sm md:text-lg m-1 mb-2 text-left'>24hr Fees</p>
-                <p className='max-sm:text-base text-lg text-white sm:mb-2 ml-1'>$205,417</p>
+                <p className='text-sm md:text-lg m-1 mb-2 text-left lg:text-xl'>24hr Fees</p>
+                <p className='max-sm:text-sm text-lg text-white sm:mb-2 ml-1 lg:text-xl'>{noDecimals(displayPrice2(arbFees))}</p>
                 </div>
                 <div className='m-2'>
-                <p className='text-sm md:text-lg m-1 text-left'>$ARB Price</p>
-                <p className='max-sm:text-base text-lg text-white sm:mb-2 ml-1'>$1.17</p>
+                <p className='text-sm md:text-lg m-1 text-left lg:text-xl'>$ARB Price</p>
+                <p className='max-sm:text-sm text-lg text-white sm:mb-2 ml-1 lg:text-xl'>${displayPrice2(arbPrice)}</p>
                 </div>
               </div>
               
@@ -388,9 +444,9 @@ const Main = ( {isSmallScreen} ) => {
                     {protocol.name}
                   </Link>
                 </div> 
-                <p className='flex items-center justify-center border border-gray-400 p-2 max-sm:text-sm max-[420px]:text-xs text-center'>{protocol.TVL ? `$${Math.round(protocol.TVL)}` : '-'}
+                <p className='flex items-center justify-center border border-gray-400 p-2 max-sm:text-sm max-[420px]:text-xs text-center'>{protocol.TVL ? `${displayPrice(Math.round(protocol.TVL))}` : '-'}
                 </p> 
-                <p className='flex items-center justify-center border border-gray-400 p-2 max-sm:text-sm max-[420px]:text-xs text-center'>{protocol.MCAP ? `$${Math.round(protocol.MCAP)}` : '-'}
+                <p className='flex items-center justify-center border border-gray-400 p-2 max-sm:text-sm max-[420px]:text-xs text-center'>{protocol.MCAP ? `${displayPrice(Math.round(protocol.MCAP))}` : '-'}
                 </p>
                 <p className='flex items-center justify-center border border-gray-400 p-2 max-sm:text-sm max-[420px]:text-xs text-center'>{protocol.TVL && protocol.MCAP ? `${(protocol.TVL / protocol.MCAP).toFixed(2)}` : '-'}
                 </p>
@@ -400,9 +456,6 @@ const Main = ( {isSmallScreen} ) => {
           </div>
           {/* END PROTOCOLS */}
           </div>
-
-          
-
 
         </div>
 

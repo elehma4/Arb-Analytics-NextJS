@@ -113,7 +113,7 @@ const DetailsPage = ({params}) => {
               <div className='flex items-center justify-start'>
                 <button className='bg-[#3267D6] hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200' onClick={()=>setDataType('TVL')}>TVL Chart</button>
                 <div>
-                  <p className='m-1 text-left text-gray-400'>Total Value Locked </p>
+                  <p className='m-1 text-left text-gray-400'>Total Value Locked <br /><p className='text-xs text-center'>(+ Staked)</p></p>
                   <p className='sm:mb-2 text-white m-1'>{displayPrice(protocol.TVL)}</p>
                 </div>
               </div>
@@ -127,9 +127,22 @@ const DetailsPage = ({params}) => {
             </div>
 
           { showVolume &&
-            <div className='text-gray-400 flex justify-center items-center lg:col-span-3'>
-              ${protocol.symbol} Volume
+            <div className='lg:col-span-3 md:col-span-4 sm:col-span-4 max-sm:col-span-4 flex'>
+            <div className='flex items-center justify-start'>
+              <button className='bg-[#3267D6] hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200' onClick={()=>setType2('Volume')}>Volume Chart</button>
+              <div>
+                <p className='m-1 text-left text-gray-400'>{protocol.symbol} Volume </p>
+                <p className='sm:mb-2 text-white m-1'>{recentVolume}</p>
+              </div>
             </div>
+            <div className='flex items-center justify-start'>
+              <button className='bg-[#3267D6] hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200' onClick={()=>setType2('MCAP')}>MCAP Chart</button>
+              <div>
+                <p className='m-1 text-left text-gray-400'>{protocol.symbol} MCAP</p>
+                <p className='text-white sm:mb-2 ml-1'>{recentMCAP}</p>
+              </div>
+            </div>
+          </div>
           }
             
             <div className='m-1 lg:col-span-3 row-span-full border max-lg:h-auto md:row-start-2 md:col-span-4 sm:row-start-2 sm:col-span-4 max-sm:row-start-2 max-sm:col-span-4 p-1'>

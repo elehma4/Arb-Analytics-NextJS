@@ -5,7 +5,7 @@ import {Providers} from './globalRedux/Provider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Arb Analytics',
+  title: 'Arbitrum Analytics',
   description: 'Arbitrum Ecosystem Analytics',
 }
 
