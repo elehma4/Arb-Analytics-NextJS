@@ -14,7 +14,7 @@ Access our site at (link)
 * [About Arbitrum Analytics](#about)<br/>
 * [Screenshots](#screen)<br/>
 * [Status](#status)<br/>
-* [Credits](#credits)
+* [Contributions](#contributions)
 <br/>
 ## <a id="tech">Technologies: 💻</a>
 
@@ -66,13 +66,13 @@ Arbitrum Analytics is in beta stage of development.<br>This was a 2 week full-st
 
 ## <a id="contributions"> Contributions: 💻</a>
 
-### <a href="www.linkedin.com/in/huntera11">Hunter Atkins</a><br>
+### <a href="www.linkedin.com/in/huntera11">Hunter Atkins (Technical Writer)</a><br>
 <img src="./client/public/images/fullImage.jpeg" alt="" height="137px"></img>
 <br>
 Description
 <br>
 
-### <a href="https://www.linkedin.com/in/ethan-lehman-web3/">Ethan Lehman</a>
+### <a href="https://www.linkedin.com/in/ethan-lehman-web3/">Ethan Lehman (Project Manager/Scrum Master)</a>
 <img src="./client/public/images/headshot_ethan.jpg" alt="" height="137px"></img>
 <br>
 Description
