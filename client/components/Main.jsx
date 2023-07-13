@@ -329,6 +329,15 @@ const Main = ( {isSmallScreen} ) => {
     }
   }
 
+  const formatBillion = (str) => {
+    let num = parseFloat(str.replace(/[\$,]/g, ''));
+    return '$' + (num / 1e9).toFixed(3) + 'b';
+  }
+
+  const noDecimals = (str) => {
+    let num = parseFloat(str.replace(/[\$,]/g, ''));
+    return '$' + Math.floor(num).toLocaleString();
+  }
 
   return (
     <div id='home' className='h-screen'>
@@ -341,16 +350,16 @@ const Main = ( {isSmallScreen} ) => {
           <div className='w-full h-3/5 sm:h-1/2 lg:h-3/5 bg-gray-900 rounded-3xl mt-6 p-6 text-gray-400 sm:grid grid-cols-4 grid-rows-4 grid-flow-col gap-2 '>
               <div className='font-bold max-sm:grid grid-cols-3 row-span-4'>
                 <div className='m-2'>
-                <p className='text-sm md:text-xl m-1 text-left'>Total Value Locked </p>
-                <p className='max-sm:text-base md:text-2xl text-lg sm:mb-2 text-white m-1'>${displayPrice2(arbTVL)}</p>
+                <p className='text-sm md:text-xl lg:text-2xl m-1 text-left'>Total Value Locked </p>
+                <p className='max-sm:text-sm md:text-2xl text-lg sm:mb-2 text-white m-1'>{formatBillion(displayPrice2(arbTVL))}</p>
                 </div>
                 <div className='m-2'>
-                <p className='text-sm md:text-lg m-1 mb-2 text-left'>24hr Fees</p>
-                <p className='max-sm:text-base text-lg text-white sm:mb-2 ml-1'>${displayPrice2(arbFees)}</p>
+                <p className='text-sm md:text-lg m-1 mb-2 text-left lg:text-xl'>24hr Fees</p>
+                <p className='max-sm:text-sm text-lg text-white sm:mb-2 ml-1 lg:text-xl'>{noDecimals(displayPrice2(arbFees))}</p>
                 </div>
                 <div className='m-2'>
-                <p className='text-sm md:text-lg m-1 text-left'>$ARB Price</p>
-                <p className='max-sm:text-base text-lg text-white sm:mb-2 ml-1'>${displayPrice2(arbPrice)}</p>
+                <p className='text-sm md:text-lg m-1 text-left lg:text-xl'>$ARB Price</p>
+                <p className='max-sm:text-sm text-lg text-white sm:mb-2 ml-1 lg:text-xl'>${displayPrice2(arbPrice)}</p>
                 </div>
               </div>
               
