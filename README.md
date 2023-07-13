@@ -21,6 +21,9 @@ Access our site at (link)
 ## <a id="tech">Technologies: 💻</a>
 
 - JavaScript
+- React
+- Next.js
+- Redux Toolkit
 - Tailwind CSS
 - Node.js
 - Express JS
@@ -29,13 +32,11 @@ Access our site at (link)
 - Passport
 - bcryptjs
 - Database GUI: Beekeeper
-- Next.js
-- Redux Toolkit
-- API: <a class="apiLink" href="https://www.coingecko.com/en/api/documentation">Coin Gecko</a>
-- API: <a class="apiLink" href="https://defillama.com/docs/api">Defi Lama</a>
+- API: <a class="apiLink" href="https://www.coingecko.com/en/api/documentation">CoinGecko</a>
+- API: <a class="apiLink" href="https://defillama.com/docs/api">Defi Llama</a>
 
 <br/><br/>
-## <a id="about">About Box Buddy: </a>
+## <a id="about">About Arbitrum Analytics: </a>
 ### <b>Home Page:</b><br>
 The home page of Box Buddy is the central hub for fitness enthusiasts to connect and share their exercise journeys. The page showcases a collection of user posts, each displaying exercise details such as name, sets, reps, weight, duration, distance, and notes. Users can like posts, view and add comments, and see the number of likes and comments for each post. 
 
@@ -61,7 +62,7 @@ The Comments page in Box Buddy provides a platform for users to engage with each
 ## <a id="screen">Screenshots: 📷</a>
 
 ### <b>Home:</b><br>
-<img src="public/images/screenshot-home.png" alt="home" width="200px"></img>
+<img src="./client/public/images/screenshot-home.png" alt="home" width="200px"></img>
 
 ### <b>Search Friends:</b><br>
 <img src="public/images/search-screenshot.png" alt="search friends" width="200px"></img>
@@ -89,7 +90,7 @@ Arbitrum Analytics is in beta stage of development.<br>This was a 2 week full-st
 ## <a id="credits">Credits: 🙌</a>
 
 ### Contributors: 
-<a href="">Hunter Atkins</a> & <a href="https://www.linkedin.com/in/ethan-lehman-444b68220/">Ethan Lehman</a><br>
-<img src="public/images/simba.PNG" alt="" height="137px"></img>
+<a href="www.linkedin.com/in/huntera11">Hunter Atkins</a> & <a href="https://www.linkedin.com/in/ethan-lehman-444b68220/">Ethan Lehman</a><br>
+<img src="./client/public/images/fullImage.jpeg" alt="" height="137px"></img>
 <img src="public/images/ethan-profimg.PNG" alt="" height="137px"></img>
 <br>
