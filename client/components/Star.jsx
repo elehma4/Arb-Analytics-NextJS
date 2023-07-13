@@ -2,9 +2,10 @@ import React, {useState, useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import {AiFillStar} from 'react-icons/ai'
 import {AiOutlineStar} from 'react-icons/ai'
-import {addFavorite, removeFavorite} from '../slices/mainSlice'
+import {addFavorite, removeFavorite, getUserFavorites} from '../slices/mainSlice'
 
 const Star = ({item}) => {
+    console.log('in star')
 
     const dispatch = useDispatch()
 
@@ -14,23 +15,23 @@ const Star = ({item}) => {
 
     const [isFavorite, setIsFavorite] = useState(false)
 
-    const checkFavorite = async () => {
+    const checkFavorite = () => {
 
-        try {
+        console.log('inside check favorite')
 
-            const itemID = item.id
+        const isItemFavorite = favorites.some((favorite) => favorite.id === item.id);
 
-            const isItemFavorite = await favorites.some((favorite) => favorite.id === itemID);
-
-            setIsFavorite(isItemFavorite)
-            
-        } catch (error) {
-
-            console.log(error)
-            
-        }
+        setIsFavorite(isItemFavorite)
         
     }
+
+    useEffect(() => {
+      
+        checkFavorite()
+        console.log(isFavorite)
+
+    })
+    
 
     useEffect(() => {
       
