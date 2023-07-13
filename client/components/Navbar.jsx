@@ -64,7 +64,7 @@ const Navbar = ({ onSmallScreenChange }) => {
           <div className="py-2 my-3">
               <div className="flex justify-center font-medium mb-1">Your Watchlist</div>
               <Favorites />
-              <div className='fixed bottom-4 flex justify-center ml-16 pl-2'>
+              <div className='fixed bottom-4 flex justify-center ml-16 px-4 py-2 bg-gray-900 rounded-md hover:scale-105 ease-in duration-300'>
                 <SignoutButton />
               </div>
               
@@ -89,7 +89,7 @@ const Navbar = ({ onSmallScreenChange }) => {
         
         <div className="flex justify-center font-medium">Your Watchlist</div>
         <Favorites />
-        <div className='fixed bottom-4 flex justify-center ml-20 pl-2'>
+        <div className='fixed bottom-4 flex justify-center bg-gray-900 ml-20 px-4 py-2 rounded-md hover:scale-105 ease-in duration-300'>
           <SignoutButton />
         </div>
         

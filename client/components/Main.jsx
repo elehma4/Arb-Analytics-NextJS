@@ -18,6 +18,9 @@ const Main = ( {isSmallScreen} ) => {
 
   const [marketData, setMarketData] = useState(null);
   const [dataType, setDataType] = useState('TVL')
+  const [arbTVL, setArbTVL] = useState(null)
+  const [arbFees, setArbFees] = useState(null)
+  const [arbPrice, setArbPrice] = useState(null)
 
   const dispatch = useDispatch();
   const userID = useSelector(state=>state.main.userID)
@@ -106,17 +109,21 @@ const Main = ( {isSmallScreen} ) => {
         time: price[0] / 1000, // convert ms to secs
         value: price[1]
       }));
+      setArbPrice(prices[prices.length - 1][1])
     } else if (dataType === 'TVL') {
       marketData = data.map(datapoint => ({
         time: datapoint.date,
         value: datapoint.tvl
       }));
+      setArbTVL(data[data.length - 1].tvl)
     } else if (dataType === 'FEES') {
+      console.log(data);
       marketData = data.totalDataChart.map(datapoint => ({
         time: datapoint[0],  // Already in Unix timestamp format
         value: datapoint[1],
         color: 'blue'
       }));
+      setArbFees(data.total24h)
     }
 
     return marketData;
@@ -126,6 +133,11 @@ const Main = ( {isSmallScreen} ) => {
   useEffect(() => {
     fetchMarketData(dataType).then(data => setMarketData(data))
   }, [dataType]);
+
+  useEffect(() => {
+    fetchMarketData('FEES');
+    fetchMarketData('PRICE')
+  })
 
   const chartContainerRef = useRef();
   const chartRef = useRef(null);
@@ -298,6 +310,26 @@ const Main = ( {isSmallScreen} ) => {
     }
   }
 
+  const displayPrice2 = (num) => {
+    const dollar = Number(num).toFixed(2)
+    const dollaDollaBill = addCommas2(dollar)
+    return dollaDollaBill
+  }
+
+  const addCommas2 = (string) => {
+    for(let i = string.length; i > 0; i--){
+      if(string[i] === '.'){
+        for (let j = string.length-3; j > 0; j-=3){
+          if(j !== string.length-3){
+            string = string.slice(0,j) + "," + string.slice(j)
+          }
+        }
+        return string
+      }
+    }
+  }
+
+
   return (
     <div id='home' className='h-screen'>
 
@@ -310,15 +342,15 @@ const Main = ( {isSmallScreen} ) => {
               <div className='font-bold max-sm:grid grid-cols-3 row-span-4'>
                 <div className='m-2'>
                 <p className='text-sm md:text-xl m-1 text-left'>Total Value Locked </p>
-                <p className='max-sm:text-base md:text-2xl text-lg sm:mb-2 text-white m-1'>$2.17b</p>
+                <p className='max-sm:text-base md:text-2xl text-lg sm:mb-2 text-white m-1'>${displayPrice2(arbTVL)}</p>
                 </div>
                 <div className='m-2'>
                 <p className='text-sm md:text-lg m-1 mb-2 text-left'>24hr Fees</p>
-                <p className='max-sm:text-base text-lg text-white sm:mb-2 ml-1'>$205,417</p>
+                <p className='max-sm:text-base text-lg text-white sm:mb-2 ml-1'>${displayPrice2(arbFees)}</p>
                 </div>
                 <div className='m-2'>
                 <p className='text-sm md:text-lg m-1 text-left'>$ARB Price</p>
-                <p className='max-sm:text-base text-lg text-white sm:mb-2 ml-1'>$1.17</p>
+                <p className='max-sm:text-base text-lg text-white sm:mb-2 ml-1'>${displayPrice2(arbPrice)}</p>
                 </div>
               </div>
               
@@ -415,9 +447,6 @@ const Main = ( {isSmallScreen} ) => {
           </div>
           {/* END PROTOCOLS */}
           </div>
-
-          
-
 
         </div>
 
