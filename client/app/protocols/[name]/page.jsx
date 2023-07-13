@@ -113,7 +113,7 @@ const DetailsPage = ({params}) => {
               <div className='flex items-center justify-start'>
                 <button className='bg-[#3267D6] hover:scale-105 ease-in duration-300 rounded-2xl py-2 px-3 m-2 text-gray-200' onClick={()=>setDataType('TVL')}>TVL Chart</button>
                 <div>
-                  <p className='m-1 text-left text-gray-400'>Total Value Locked </p>
+                  <p className='m-1 text-left text-gray-400'>Total Value Locked <br /><p className='text-xs text-center'>(+ Staked)</p></p>
                   <p className='sm:mb-2 text-white m-1'>{displayPrice(protocol.TVL)}</p>
                 </div>
               </div>
