@@ -283,6 +283,21 @@ const Main = ( {isSmallScreen} ) => {
     });
   }, [])
 
+  const displayPrice = (num) => {
+    const dollar = `$${String(num)}`;
+    const withCommas = addCommas(dollar)
+    return withCommas;
+  }
+
+  const addCommas = (string) => {
+    for(let i = string.length - 1; i >= 0; i--){
+      for (let j = string.length-3; j > 1; j-=3){
+        string = string.slice(0,j) + "," + string.slice(j)
+      }
+      return string
+    }
+  }
+
   return (
     <div id='home' className='h-screen'>
 
@@ -388,9 +403,9 @@ const Main = ( {isSmallScreen} ) => {
                     {protocol.name}
                   </Link>
                 </div> 
-                <p className='flex items-center justify-center border border-gray-400 p-2 max-sm:text-sm max-[420px]:text-xs text-center'>{protocol.TVL ? `$${Math.round(protocol.TVL)}` : '-'}
+                <p className='flex items-center justify-center border border-gray-400 p-2 max-sm:text-sm max-[420px]:text-xs text-center'>{protocol.TVL ? `${displayPrice(Math.round(protocol.TVL))}` : '-'}
                 </p> 
-                <p className='flex items-center justify-center border border-gray-400 p-2 max-sm:text-sm max-[420px]:text-xs text-center'>{protocol.MCAP ? `$${Math.round(protocol.MCAP)}` : '-'}
+                <p className='flex items-center justify-center border border-gray-400 p-2 max-sm:text-sm max-[420px]:text-xs text-center'>{protocol.MCAP ? `${displayPrice(Math.round(protocol.MCAP))}` : '-'}
                 </p>
                 <p className='flex items-center justify-center border border-gray-400 p-2 max-sm:text-sm max-[420px]:text-xs text-center'>{protocol.TVL && protocol.MCAP ? `${(protocol.TVL / protocol.MCAP).toFixed(2)}` : '-'}
                 </p>
