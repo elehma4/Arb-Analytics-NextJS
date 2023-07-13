@@ -60,4 +60,5 @@ Arbitrum Analytics is in beta stage of development.<br>This was a 2 week full-st
 <a href="www.linkedin.com/in/huntera11">Hunter Atkins</a> & <a href="https://www.linkedin.com/in/ethan-lehman-web3/">Ethan Lehman</a><br>
 <img src="./client/public/images/fullImage.jpeg" alt="" height="137px"></img>
 <img src="./client/public/images/headshot_ethan.jpg" alt="" height="137px"></img>
+<img src="./client/public/images/jordan.jpg" alt="" height="137px"></img>
 <br>
