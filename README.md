@@ -16,6 +16,7 @@ Access our site at (link)
 * [Status](#status)<br/>
 * [Contributions](#contributions)
 <br/>
+
 ## <a id="tech">Technologies: 💻</a>
 
 - JavaScript
@@ -35,7 +36,9 @@ Access our site at (link)
 - API: <a class="apiLink" href="https://www.coingecko.com/en/api/documentation">CoinGecko</a>
 - API: <a class="apiLink" href="https://defillama.com/docs/api">Defi Llama</a>
 <br/>
+
 ## <a id="about">About Arbitrum Analytics: 📊</a>
+
 ### <b>Main Page:</b><br>
 At the heart of our website is a powerful search bar, which grants you the ability to effortlessly explore and discover protocols of interest. Simply enter the name or keyword, and let our intelligent search engine guide you to the desired information, providing you with instant access to the protocols you seek.
 
@@ -60,6 +63,7 @@ To enhance the user experience, we incorporate a "favorites" table, allowing use
 To power the analytical capabilities of Arbitrum Analytics, we store performance data in a dedicated table. This table tracks important events such as user searches and loading times, and acts as a valuable resource for monitoring and optimizing the user experience on our platform. By capturing search queries and recording loading times, we gain insights into user behavior and the performance of our system.
 
 <br/>
+
 ## <a id="screen">Screenshots: 📷</a>
 
 ### <b>Login/Registration:</b><br>
