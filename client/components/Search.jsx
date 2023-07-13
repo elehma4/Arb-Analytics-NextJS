@@ -95,7 +95,7 @@ const Search = () => {
 
         <div className="h-1/2 p-4 text-white flex justify-apart items-center w-full">
           <p className="flex justify-start items-center w-1/2 mx-3 text-sm">
-            Powered by <img src="/assets/defillama.webp" className="h-9 mx-2" />
+            Powered by <img src="/assets/defillama.webp" className="h-9 mx-2" /> & <img src="/assets/coingecko-logo.png" className='h-[34px] ml-3' />
           </p>
         </div>
       </form>
