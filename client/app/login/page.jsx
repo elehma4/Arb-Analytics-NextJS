@@ -49,7 +49,8 @@ const Signin = () => {
   };
 
   return (
-    <div className="w-full min-h-screen flex justify-center items-center bg-gray-900">
+    <div className="w-full min-h-screen flex justify-center items-center bg-gray-900 flex-col">
+        <div className="text-white font-semibold text-xl my-4">Welcome to Arbitrum Analytics</div>
   <div className='relative w-[380px] h-[420px] bg-darkblue-800 rounded-lg overflow-hidden'>
     <div className="absolute w-[380px] h-[420px] bg-gradient-to-r from-blue-500 via-blue-500 to-transparent -top-[50%] -left-[50%] animate-spin-slow origin-bottom-right" />
     <div className="absolute w-[380px] h-[420px] bg-gradient-to-r from-blue-500 via-blue-500 to-transparent -top-[50%] -left-[50%] animate-spin-delay origin-bottom-right" />
