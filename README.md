@@ -97,6 +97,16 @@ Arbitrum Analytics is in beta stage of development.<br>This was a 2 week full-st
 ### <a href="www.linkedin.com/in/huntera11">Hunter Atkins (Technical Writer)</a><br>
 <img src="./client/public/images/fullImage.jpeg" alt="" height="137px"></img>
 <br>
+Hunter was responsible for the following:
+-  setting up the front-end 
+-  assisting with the functionality of authentication
+-  creating the search bar
+-  creating favorites functionality
+-  creating sorting functionality
+-  charts displayed on the details page
+-  some styling
+-  making the readMe
+<br>
 <br>
 
 ### <a href="https://www.linkedin.com/in/ethan-lehman-web3/">Ethan Lehman (Project Manager/Scrum Master)</a>
