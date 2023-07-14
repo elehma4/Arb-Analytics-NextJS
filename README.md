@@ -115,6 +115,14 @@ Hunter was responsible for the following:
 
 ### <a href="https://www.linkedin.com/in/ethan-lehman-web3/">Ethan Lehman (Project Manager/Scrum Master)</a>
 <img src="./client/public/images/headshot_ethan.jpg" alt="" height="137px"></img>
+Ethan was responsible for the following:
+- Project Management
+- Next.js Client & Node.js Server Set-Up
+- PostgreSQL Database/Model Creation & Updating
+- Sequelize.js Set-Up
+- Data Fetching on the front-end & financial API fetching
+- Front-End Display & Design with Tailwind CSS (Excluding Nav-Bar)
+
 <br>
 <br>
 
