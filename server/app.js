@@ -93,12 +93,18 @@ const fetchCGMCaps = async () => {
     }
 }
 // fetchCGMCaps()
-const intervalTime = 60 * 1000; // 60 seconds
+// const intervalTime = 60 * 1000; // 60 seconds
 
-setInterval(fetchCGMCaps, intervalTime);
+// setInterval(fetchCGMCaps, intervalTime);
 
 // Then fetch and update every 12 hours
 // setInterval(fetchAndUpdate, 24 * 60 * 60 * 1000); // <- Uncomment when in Production | Comment in Development
+
+const intervalTime = 12 * 60 * 60 * 1000; // 12 hours in milliseconds
+
+// Then fetch and update every 12 hours
+setInterval(fetchAndUpdate, intervalTime);
+// setInterval(fetchCGMCaps, intervalTime);
 
 app.listen(port, () => {
     console.log(`listening on port ${port}`);
