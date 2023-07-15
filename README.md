@@ -5,9 +5,9 @@ In addition to the analytics features, the website also offers a personalized ex
 
 Arbitrum Analytics serves as a one-stop platform for users interested in the Arbitrum network, empowering them with the data and tools necessary to make informed decisions, discover new opportunities, and stay up-to-date with the latest trends in the Arbitrum ecosystem.
 <br/>
-## Live Link: 🔗
+## Demo: 🔗
 
-Access our site at (link)
+View our live demo here: <a href="https://www.loom.com/share/09f18a65b5f940c28035d3aec76c2786?sid=cd624968-a89f-4ed4-b4b2-9bf46dada7ec">Arbitrum Analytics</a>
 <br/>
 ## Table of Contents: 📚
 * [Technologies](#tech)<br/>
